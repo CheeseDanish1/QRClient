@@ -42,45 +42,48 @@ function ManageEvent({ eventId }) {
 
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
-      if (res.error) {
-        setError(res.message);
-      } else {
-        if (res.event.startTime) {
-          let startTime = res.event.startTime.split(":");
-          startTime.pop();
-          startTime = startTime.join(":");
-          setStartTime(startTime);
-        } else setStartTime(null);
+      if (res.error)
+        return setError(res.message);
 
-        if (res.event.endTime) {
-          let endTime = res.event.endTime.split(":");
-          endTime.pop();
-          endTime = endTime.join(":");
-          setEndTime(endTime);
-        } else setEndTime(null);
 
-        setTitle(res.event.companyName);
-        setLandingText(res.event.text.eventLandingText);
-        setCheckboxes(res.event.fields);
-        setFurtherContact(res.event.furtherContact);
-        setEmailHTML(res.event.text.emailHTML);
-        setPhoneText(res.event.text.phoneText);
-        setMaxCapacity(res.event.maxCapacity);
-        setColor(res.event.fontColor || "#fff");
-        setImagePath(res.event.imagePath);
-        setImageEnabled(res.event?.enabled?.image || false);
-        setMaxCapacityEnabled(res.event?.enabled?.maxCapacity || false);
+      if (res.event.startTime) setStartTime(formatDateToISOString(new Date(res.event.startTime)));
+      else setStartTime(null);
 
-        setLoading(false);
-        setEvent(res.event);
-        setError("");
-      }
+      if (res.event.endTime) setEndTime(formatDateToISOString(new Date(res.event.endTime)));
+      else setEndTime(null);
+
+      setTitle(res.event.companyName);
+      setLandingText(res.event.text.eventLandingText);
+      setCheckboxes(res.event.fields);
+      setFurtherContact(res.event.furtherContact);
+      setEmailHTML(res.event.text.emailHTML);
+      setPhoneText(res.event.text.phoneText);
+      setMaxCapacity(res.event.maxCapacity);
+      setColor(res.event.fontColor || "#fff");
+      setImagePath(res.event.imagePath);
+      setImageEnabled(res.event?.enabled?.image || false);
+      setMaxCapacityEnabled(res.event?.enabled?.maxCapacity || false);
+
+      setLoading(false);
+      setEvent(res.event);
+      setError("");
+
     });
   }, [eventId]);
 
   useEffect(() => {
     setLoading(true);
   }, [eventId]);
+
+  function formatDateToISOString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 
   function handleClose(event, reason) {
     if (reason == "clickaway") return;
@@ -113,10 +116,10 @@ function ManageEvent({ eventId }) {
       },
     };
 
-    console.log(currentEvent);
+    console.log(currentEvent.startTime);
 
     updateEvent({ event: currentEvent }).then((res) => {
-      console.log(res);
+      if (!res.error) setSaving(true)
     });
   }
 

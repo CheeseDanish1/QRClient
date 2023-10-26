@@ -1,4 +1,5 @@
 import axios from "axios";
+// eslint-disable-next-line
 const { PRODUCTION_API_URI, API_URI } = require("../constants.json");
 
 // const API_URI = PRODUCTION_API_URI;
@@ -44,17 +45,6 @@ export async function updateEvent({ event }) {
     withCredentials: true,
     data: { event },
   });
-
-  let data = await fetch(`${API_URI}/api/update-event`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    mode: "cors",
-    body: JSON.stringify({ event }),
-  });
-  return await data.json();
 }
 
 export async function testText({ phoneNumber, phoneContent }) {
