@@ -1,0 +1,261 @@
+.manage-event-container {
+  padding: 1em;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: repeat(100, 10px);
+  grid-column-gap: 50px;
+  grid-row-gap: 10px;
+}
+
+.item {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.one {
+  grid-row: 1/31;
+  grid-column: 1/1;
+}
+
+.two {
+  grid-row: 1/22;
+  grid-column: 2/2;
+}
+
+.three {
+  grid-row: 32/53;
+  grid-column: 1/1;
+}
+
+.four {
+  grid-row: 23/32;
+  grid-column: 2/2;
+}
+
+.five {
+  grid-row: 54/80;
+  grid-column: 1/1;
+}
+
+.six {
+  grid-row: 33/40;
+  grid-column: 2/2;
+}
+
+.seven {
+  grid-row: 82/82;
+  grid-column: 1/1;
+}
+
+.eight {
+  grid-row: 41/55;
+  grid-column: 2/2;
+}
+
+.ten {
+  grid-row: 56/62;
+  grid-column: 2/2;
+}
+.inner {
+  padding: 10px;
+  font-family: Verdana;
+}
+
+.inner-four {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.time {
+  border: none;
+  background-color: #eaeaea;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.button-dark {
+  color: white;
+  background-color: #0a0a0a;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.image-disabled {
+  background-color: #e0e0e0 !important;
+  cursor: auto !important;
+}
+
+button.button-dark:hover {
+  cursor: pointer;
+  background-color: rgba(10, 10, 10, 0.9);
+}
+
+.button-sleek {
+  background: none;
+  border: none;
+  font-weight: bolder;
+  font-size: 16px;
+  text-decoration: underline;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.inner-four button {
+  margin: 10px;
+}
+
+.inner-four button:hover {
+  cursor: pointer;
+}
+
+h3 {
+  font-family: Verdana;
+}
+
+.input-field {
+  border: none;
+  width: 90%;
+  background-color: #eaeaea;
+  height: 40px;
+  font-family: Verdana;
+  text-indent: 10px;
+}
+
+#title::placeholder,
+#description::placeholder,
+#landing-text::placeholder {
+  color: #000;
+  opacity: 1;
+}
+
+.qr-code {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.add-event {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feature {
+  margin: 10px;
+  padding: 10px;
+  background-color: #eaeaea;
+  width: 40%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+}
+
+button.share-button {
+  width: 100%;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0077ff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.1s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button.share-button:hover {
+  background-color: #0055dd;
+}
+
+button.sleek-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.1s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+button.sleek-button:hover {
+  background-color: #e0e0e0;
+}
+
+.drop-area {
+  height: 200px;
+  display: inline-block;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.consent-select {
+  border: none;
+  width: 90%;
+  padding: 10px;
+  background-color: #eaeaea;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.max-cap-input {
+  border: none;
+  background-color: #eaeaea;
+  padding: 10px;
+}
+
+.email-html {
+  padding: 10px;
+  border: none;
+  background-color: #eaeaea;
+  max-width: 600px;
+  max-height: 250px;
+  font-size: 16px;
+  width: 100%;
+  height: 250px;
+}
+
+.phone-message {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background-color: #eaeaea;
+  max-width: 600px;
+  max-height: 75px;
+  height: 75px;
+}
+
+.button-danger {
+  padding: 10px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.button-danger:hover {
+  cursor: pointer;
+}

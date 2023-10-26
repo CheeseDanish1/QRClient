@@ -1,0 +1,66 @@
+.authentication-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.authentication-box {
+  width: 300px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.authentication-heading {
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+}
+
+.authentication-error-text {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.authentication-input-container {
+  margin: 10px 0;
+}
+.authentication-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.authentication-input-field {
+  width: 90%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.authentication-button {
+  width: 100%;
+  padding: 10px;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.authentication-login-link {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.authentication-link-text {
+  color: #2196f3;
+  text-decoration: none;
+}
