@@ -1,6 +1,6 @@
 {
   "API_URI": "http://localhost:3001",
-  "PRODUCTION_API_URI": "https://qr-server-8alo.onrender.com",
-  "APP_URI": "http://192.168.12.97:3000",
-  "PRODUCTION_APP_URI": "https://qr-client.onrender.com"
+  "PRODUCTION_API_URI": "https://qrserver-6s0v.onrender.com",
+  "APP_URI": "http://localhost:3000",
+  "PRODUCTION_APP_URI": "https://qrserver-me3r.onrender.com"
 }
