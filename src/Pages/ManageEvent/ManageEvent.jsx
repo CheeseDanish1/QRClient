@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { getEvent, updateEvent } from "../../utils/api";
+import { getEvent, updateEvent, deleteEvent } from "../../utils/api";
 import {
   Primary,
   QRCode,
   Customization,
   Notifications,
   Times,
+  Delete,
 } from "./Components";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import "./index.css";
 
-function ManageEvent({ eventId }) {
+function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   const [loading, setLoading] = useState(true);
   // const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -42,14 +43,14 @@ function ManageEvent({ eventId }) {
 
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
-      if (res.error)
-        return setError(res.message);
+      if (res.error) return setError(res.message);
 
-
-      if (res.event.startTime) setStartTime(formatDateToISOString(new Date(res.event.startTime)));
+      if (res.event.startTime)
+        setStartTime(formatDateToISOString(new Date(res.event.startTime)));
       else setStartTime(null);
 
-      if (res.event.endTime) setEndTime(formatDateToISOString(new Date(res.event.endTime)));
+      if (res.event.endTime)
+        setEndTime(formatDateToISOString(new Date(res.event.endTime)));
       else setEndTime(null);
 
       setTitle(res.event.companyName);
@@ -67,7 +68,6 @@ function ManageEvent({ eventId }) {
       setLoading(false);
       setEvent(res.event);
       setError("");
-
     });
   }, [eventId]);
 
@@ -116,10 +116,8 @@ function ManageEvent({ eventId }) {
       },
     };
 
-    console.log(currentEvent.startTime);
-
     updateEvent({ event: currentEvent }).then((res) => {
-      if (!res.error) setSaving(true)
+      if (!res.error) setSaving(true);
     });
   }
 
@@ -182,12 +180,11 @@ function ManageEvent({ eventId }) {
           setMaxCapacity={setMaxCapacity}
           setMaxCapacityEnabled={setMaxCapacityEnabled}
         />
-        <div className="item ten">
-          <div className="inner">
-            <h3 style={{ fontWeight: "bold" }}>Delete Event (Permanent)</h3>
-            <button className="button-danger">Delete</button>
-          </div>
-        </div>
+        <Delete
+          event={event}
+          setCreatingEvent={setCreatingEvent}
+          setManagingEvent={setManagingEvent}
+        />
       </div>
 
       <Snackbar open={saving} autoHideDuration={3000} onClose={handleClose}>

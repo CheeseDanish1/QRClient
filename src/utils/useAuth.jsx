@@ -113,6 +113,15 @@ function useProvideAuth() {
     });
   }
 
+  function removeUserEvent(eventUUID) {
+    setUser((prev) => {
+      return {
+        ...prev,
+        events: prev.events.filter(e => e.uuid != eventUUID)
+      }
+    })
+  }
+
   function signout() {
     return logout().then(({ data }) => {
       if (data.succuss) setUser(null);
@@ -131,5 +140,6 @@ function useProvideAuth() {
     signinError,
     setSigninError,
     addUserEvents,
+    removeUserEvent
   };
 }

@@ -35,6 +35,8 @@ function Dashboard() {
             addUserEvents={addUserEvents}
             creatingEvent={creatingEvent}
             managingEvent={managingEvent}
+            setCreatingEvent={setCreatingEvent}
+            setManagingEvent={setManagingEvent}
             user={user}
           />
         </div>
@@ -43,8 +45,8 @@ function Dashboard() {
   );
 }
 
-function RenderContent({ creatingEvent, addUserEvents, user, managingEvent }) {
-  if (!creatingEvent) return <ManageEvent eventId={managingEvent} />;
+function RenderContent({ creatingEvent, addUserEvents, user, managingEvent, setCreatingEvent, setManagingEvent }) {
+  if (!creatingEvent) return <ManageEvent setCreatingEvent={setCreatingEvent} setManagingEvent={setManagingEvent} eventId={managingEvent} />;
   else return <CreateEvent addUserEvents={addUserEvents} userId={user.id} />;
 }
 
