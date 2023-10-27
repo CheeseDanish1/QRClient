@@ -31,7 +31,7 @@ const Signup = () => {
           <div className="authentication-error-text">{signupError[0]}</div>
         )}
         <div className="authentication-input-container">
-          <label className="authentication-label" style={styles.label}>
+          <label className="authentication-label" >
             Email
           </label>
           <input
@@ -80,67 +80,6 @@ const Signup = () => {
       </div>
     </div>
   );
-};
-
-const styles = {
-  // container: {
-  //   display: "flex",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   height: "100vh",
-  //   background: "#f0f0f0",
-  //   fontFamily: "arial",
-  // },
-  // signupBox: {
-  //   width: "300px",
-  //   padding: "20px",
-  //   background: "rgba(255, 255, 255, 0.8)",
-  //   borderRadius: "5px",
-  //   boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-  // },
-  // heading: {
-  //   fontSize: "24px",
-  //   textAlign: "center",
-  //   color: "#333",
-  // },
-  // errorText: {
-  //   color: "red",
-  //   textAlign: "center",
-  //   marginBottom: "10px",
-  // },
-  // inputContainer: {
-  //   margin: "10px 0",
-  // },
-  // label: {
-  //   display: "block",
-  //   marginBottom: "5px",
-  //   color: "#333",
-  // },
-  // input: {
-  //   width: "90%",
-  //   padding: "10px",
-  //   borderRadius: "5px",
-  //   border: "1px solid #ccc",
-  //   fontSize: "16px",
-  // },
-  // signupButton: {
-  //   width: "100%",
-  //   padding: "10px",
-  //   background: "#2196f3",
-  //   color: "#fff",
-  //   border: "none",
-  //   borderRadius: "5px",
-  //   cursor: "pointer",
-  //   fontSize: "16px",
-  // },
-  // loginLink: {
-  //   marginTop: "10px",
-  //   textAlign: "center",
-  // },
-  // linkText: {
-  //   color: "#2196f3",
-  //   textDecoration: "none",
-  // },
 };
 
 export default Signup;

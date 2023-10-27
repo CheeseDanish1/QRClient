@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getEvent, updateEvent, deleteEvent } from "../../utils/api";
+import { getEvent, updateEvent } from "../../utils/api";
 import {
   Primary,
   QRCode,
@@ -86,7 +86,7 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   }
 
   function handleClose(event, reason) {
-    if (reason == "clickaway") return;
+    if (reason === "clickaway") return;
     setSaving(false);
   }
 

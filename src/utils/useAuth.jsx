@@ -117,7 +117,7 @@ function useProvideAuth() {
     setUser((prev) => {
       return {
         ...prev,
-        events: prev.events.filter(e => e.uuid != eventUUID)
+        events: prev.events.filter(e => e.uuid !== eventUUID)
       }
     })
   }

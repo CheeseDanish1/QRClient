@@ -10,7 +10,7 @@ function Delete({ event, setCreatingEvent, setManagingEvent }) {
     deleteEvent({ eventUUID: event.uuid }).then((res) => {
       if (!res.error) {
         removeUserEvent(event.uuid);
-        if (user.events.length == 1) {
+        if (user.events.length === 1) {
           setCreatingEvent(true);
           setManagingEvent(null);
         } else {
