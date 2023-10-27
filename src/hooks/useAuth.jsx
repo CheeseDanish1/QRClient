@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext } from "react";
-import { login, logout, signup_auth, getUser } from "./api";
+import { login, logout, signup_auth, getUser } from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -117,9 +117,21 @@ function useProvideAuth() {
     setUser((prev) => {
       return {
         ...prev,
-        events: prev.events.filter(e => e.uuid !== eventUUID)
-      }
-    })
+        events: prev.events.filter((e) => e.uuid !== eventUUID),
+      };
+    });
+  }
+
+  function updateUserEvent(newEvent) {
+    setUser((prev) => {
+      return {
+        ...prev,
+        events: prev.events.map((event) => {
+          if (event.uuid !== newEvent.uuid) return event;
+          return newEvent;
+        }),
+      };
+    });
   }
 
   function signout() {
@@ -140,6 +152,7 @@ function useProvideAuth() {
     signinError,
     setSigninError,
     addUserEvents,
-    removeUserEvent
+    removeUserEvent,
+    updateUserEvent,
   };
 }

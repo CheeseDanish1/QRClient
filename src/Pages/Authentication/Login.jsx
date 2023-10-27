@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../utils/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { user, signin, signinError, isLoading } = useAuth();
+  const { user, signin, signinError } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     signin({ email, password });
   };
 
@@ -20,11 +21,9 @@ const Login = () => {
     }
   }, [user, navigate]);
 
-  if (isLoading) return <p>Loading</p>;
-
   return (
     <div className="authentication-container">
-      <div className="authentication-box">
+      <form onSubmit={handleLogin} className="authentication-box">
         <h1 className="authentication-heading">Login</h1>
         {signinError.length > 0 && (
           <div className="authentication-error-text">{signinError[0]}</div>
@@ -47,7 +46,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button className="authentication-button" onClick={handleLogin}>
+        <button type="submit" className="authentication-button">
           Login
         </button>
         <p className="authentication-login-link">
@@ -56,10 +55,9 @@ const Login = () => {
             Signup
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 };
-
 
 export default Login;

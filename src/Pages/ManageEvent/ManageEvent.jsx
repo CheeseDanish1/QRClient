@@ -7,10 +7,14 @@ import {
   Notifications,
   Times,
   Delete,
+  Preview,
 } from "./Components";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import "./index.css";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useAuth } from "../../hooks/useAuth";
 
 function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   const [loading, setLoading] = useState(true);
@@ -41,9 +45,14 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   const [event, setEvent] = useState(null);
   const [saving, setSaving] = useState(false);
 
+  const { updateUserEvent } = useAuth();
+
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
-      if (res.error) return setError(res.message);
+      if (res.error) {
+        setLoading(false);
+        return setError(res.message);
+      }
 
       if (res.event.startTime)
         setStartTime(formatDateToISOString(new Date(res.event.startTime)));
@@ -68,6 +77,8 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
       setLoading(false);
       setEvent(res.event);
       setError("");
+
+      document.querySelector(".content-container").scrollTo(0, 0);
     });
   }, [eventId]);
 
@@ -91,7 +102,10 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   }
 
   function save() {
-    if (imageEnabled && !imagePath) return;
+    if (imageEnabled && !imagePath)
+      return setError("No image. Either disable or upload image");
+    if (checkboxes.email + checkboxes.phone === 0)
+      return setError("Need Email or Phone checked");
 
     const currentEvent = {
       ...event,
@@ -116,15 +130,21 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
       },
     };
 
+    setLoading(true);
     updateEvent({ event: currentEvent }).then((res) => {
-      if (!res.error) setSaving(true);
+      if (res.error) return setError("Unknown Error");
+
+      updateUserEvent(currentEvent);
+      setLoading(false);
+      setSaving(true);
     });
   }
 
   if (!event && loading) return <></>;
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex" }}>
+      {loading && <LoadingSpinner />}
       <div className="manage-event-container">
         <Primary
           checkboxes={checkboxes}
@@ -161,15 +181,7 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
           emailHTML={emailHTML}
           phoneText={phoneText}
         />
-        <div className="item six">
-          <div className="inner" style={{ textAlign: "center" }}>
-            <h3>Page Preview</h3>
-            <button className="button-dark" style={{ marginTop: 25 }}>
-              Visit Preview
-            </button>
-          </div>
-        </div>
-        <div className="item seven"></div>
+        <Preview event={event} />
         <Times
           endTime={endTime}
           startTime={startTime}
@@ -186,19 +198,61 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
           setManagingEvent={setManagingEvent}
         />
       </div>
-
-      <Snackbar open={saving} autoHideDuration={3000} onClose={handleClose}>
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          onClose={handleClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Changes saved!
-        </MuiAlert>
-      </Snackbar>
+      <SuccessSnackbar saving={saving} handleClose={handleClose} />
+      <ErrorSnackbar error={error} setError={setError} />
     </div>
+  );
+}
+
+function LoadingSpinner() {
+  return (
+    <Backdrop
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={true}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
+}
+function SuccessSnackbar({ saving, handleClose }) {
+  return (
+    <Snackbar
+      anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      open={saving}
+      autoHideDuration={3000}
+      onClose={handleClose}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={handleClose}
+        severity="success"
+        sx={{ width: "100%" }}
+      >
+        Changes saved!
+      </MuiAlert>
+    </Snackbar>
+  );
+}
+
+function ErrorSnackbar({ error, setError }) {
+  return (
+    <Snackbar
+      anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      open={!!error}
+      autoHideDuration={3000}
+      onClose={() => setError(null)}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={() => setError(null)}
+        severity="error"
+        sx={{ width: "100%" }}
+      >
+        {error}
+      </MuiAlert>
+    </Snackbar>
   );
 }
 

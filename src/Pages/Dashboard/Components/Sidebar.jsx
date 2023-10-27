@@ -1,6 +1,6 @@
 import React from "react";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import { useAuth } from "../../../utils/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 
 function Sidebar({ setManagingEvent, setCreatingEvent }) {
   const { signout, user } = useAuth();

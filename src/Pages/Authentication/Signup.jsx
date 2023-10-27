@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../utils/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
@@ -10,10 +10,11 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { user, signup, signupError, isLoading } = useAuth();
+  const { user, signup, signupError } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignup = () => {
+  const handleSignup = (e) => {
+    e.preventDefault();
     signup({ email, password, username, confirmPassword });
   };
 
@@ -21,19 +22,15 @@ const Signup = () => {
     if (user) navigate("/dashboard");
   }, [user, navigate]);
 
-  if (isLoading) return <p>Loading</p>;
-
   return (
     <div className="authentication-container">
-      <div className="authentication-box">
+      <form onSubmit={handleSignup} className="authentication-box">
         <h1 className="authentication-heading">Sign Up</h1>
         {signupError.length > 0 && (
           <div className="authentication-error-text">{signupError[0]}</div>
         )}
         <div className="authentication-input-container">
-          <label className="authentication-label" >
-            Email
-          </label>
+          <label className="authentication-label">Email</label>
           <input
             className="authentication-input-field"
             type="text"
@@ -68,7 +65,7 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        <button className="authentication-button" onClick={handleSignup}>
+        <button type="submit" className="authentication-button">
           Sign Up
         </button>
         <p className="authentication-login-link">
@@ -77,7 +74,7 @@ const Signup = () => {
             Login
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 };

@@ -1,9 +1,8 @@
 import React from "react";
-import { useAuth } from "../../../utils/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { deleteEvent } from "../../../utils/api";
 
 function Delete({ event, setCreatingEvent, setManagingEvent }) {
-
   const { removeUserEvent, user } = useAuth();
 
   function removeEvent() {

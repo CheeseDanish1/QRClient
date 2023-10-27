@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Components/Sidebar";
 import CreateEvent from "../CreateEvent";
-import { useAuth } from "../../utils/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ManageEvent from "../ManageEvent/ManageEvent";
 import "./index.css";
@@ -45,8 +45,22 @@ function Dashboard() {
   );
 }
 
-function RenderContent({ creatingEvent, addUserEvents, user, managingEvent, setCreatingEvent, setManagingEvent }) {
-  if (!creatingEvent) return <ManageEvent setCreatingEvent={setCreatingEvent} setManagingEvent={setManagingEvent} eventId={managingEvent} />;
+function RenderContent({
+  creatingEvent,
+  addUserEvents,
+  user,
+  managingEvent,
+  setCreatingEvent,
+  setManagingEvent,
+}) {
+  if (!creatingEvent)
+    return (
+      <ManageEvent
+        setCreatingEvent={setCreatingEvent}
+        setManagingEvent={setManagingEvent}
+        eventId={managingEvent}
+      />
+    );
   else return <CreateEvent addUserEvents={addUserEvents} userId={user.id} />;
 }
 

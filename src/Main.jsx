@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Scan from "./Pages/Scan";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Event from "./Pages/Event";
@@ -7,8 +7,10 @@ import QrCode from "./Components/QrCode";
 import Redeem from "./Pages/Redeem";
 import Login from "./Pages/Authentication/Login";
 import Signup from "./Pages/Authentication/Signup";
-import { useAuth } from "./utils/useAuth";
+import { useAuth } from "./hooks/useAuth";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +50,13 @@ const router = createBrowserRouter([
 ]);
 
 export default function Main() {
-  const { isUser } = useAuth();
+  const [spinner, setSpinner] = useState(false);
+  const { isUser, isLoading } = useAuth();
+
+  useEffect(() => {
+    console.log(isLoading);
+    setSpinner(!isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     isUser();
@@ -58,6 +66,12 @@ export default function Main() {
 
   return (
     <div className="App">
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={!spinner}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <RouterProvider router={router} />
     </div>
   );
