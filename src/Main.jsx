@@ -11,6 +11,8 @@ import { useAuth } from "./hooks/useAuth";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import ManageEvent from "./Pages/ManageEvent/ManageEvent";
+import CreateEvent from "./Pages/CreateEvent/CreateEvent";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/dashboard/:eventId",
+    element: <ManageEvent />,
+  },
+  {
+    path: "/dashboard/create",
+    element: <CreateEvent />,
   },
   {
     path: "/scan",
@@ -54,7 +64,6 @@ export default function Main() {
   const { isUser, isLoading } = useAuth();
 
   useEffect(() => {
-    console.log(isLoading);
     setSpinner(!isLoading);
   }, [isLoading]);
 

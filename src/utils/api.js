@@ -12,6 +12,14 @@ export async function getUser() {
   });
 }
 
+export function getUserById({ userId }) {
+  return axios({
+    url: `${API_URI}/api/user/${userId}`,
+    method: "GET",
+    withCredentials: true,
+  });
+}
+
 export async function logout() {
   return axios({
     url: `${API_URI}/auth/local/logout`,
@@ -20,13 +28,13 @@ export async function logout() {
   });
 }
 
-export async function deleteEvent({eventUUID}) {
+export async function deleteEvent({ eventUUID }) {
   return axios({
     url: `${API_URI}/api/event`,
     method: "DELETE",
     withCredentials: true,
-    data: {eventUUID}
-  })
+    data: { eventUUID },
+  });
 }
 
 export async function login({ password, email }) {

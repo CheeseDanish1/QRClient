@@ -15,8 +15,12 @@ import "./index.css";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAuth } from "../../hooks/useAuth";
+import { useParams } from "react-router-dom";
+import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 
-function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
+function ManageEvent() {
+  const { eventId } = useParams();
+
   const [loading, setLoading] = useState(true);
   // const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -78,7 +82,8 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
       setEvent(res.event);
       setError("");
 
-      document.querySelector(".content-container").scrollTo(0, 0);
+      if (document.querySelector(".content-container"))
+        document.querySelector(".content-container").scrollTo(0, 0);
     });
   }, [eventId]);
 
@@ -143,64 +148,62 @@ function ManageEvent({ eventId, setCreatingEvent, setManagingEvent }) {
   if (!event && loading) return <></>;
 
   return (
-    <div style={{ display: "flex" }}>
-      {loading && <LoadingSpinner />}
-      <div className="manage-event-container">
-        <Primary
-          checkboxes={checkboxes}
-          furtherContact={furtherContact}
-          landingText={landingText}
-          title={title}
-          setCheckboxes={setCheckboxes}
-          setFurtherContact={setFurtherContact}
-          setLandingText={setLandingText}
-          setTitle={setTitle}
-        />
-        <QRCode eventUUID={event.uuid} />
-        <Customization
-          imagePath={imagePath}
-          imageEnabled={imageEnabled}
-          setImageEnabled={setImageEnabled}
-          setImagePath={setImagePath}
-          color={color}
-          setColor={setColor}
-        />
-        <div className="item four">
-          <div className="inner inner-four">
-            {/* Toggle between make public and make private */}
-            <button className="button-dark">Publish Giveaway</button>
-            <button className="button-dark">Share Analytics</button>
-            <button className="button-sleek" onClick={save}>
-              Save Changes
-            </button>
+    <RenderAuthPage>
+      <div style={{ display: "flex" }}>
+        {loading && <LoadingSpinner />}
+        <div className="manage-event-container">
+          <Primary
+            checkboxes={checkboxes}
+            furtherContact={furtherContact}
+            landingText={landingText}
+            title={title}
+            setCheckboxes={setCheckboxes}
+            setFurtherContact={setFurtherContact}
+            setLandingText={setLandingText}
+            setTitle={setTitle}
+          />
+          <QRCode eventUUID={event.uuid} />
+          <Customization
+            imagePath={imagePath}
+            imageEnabled={imageEnabled}
+            setImageEnabled={setImageEnabled}
+            setImagePath={setImagePath}
+            color={color}
+            setColor={setColor}
+          />
+          <div className="item four">
+            <div className="inner inner-four">
+              {/* Toggle between make public and make private */}
+              <button className="button-dark">Publish Giveaway</button>
+              <button className="button-dark">Share Analytics</button>
+              <button className="button-sleek" onClick={save}>
+                Save Changes
+              </button>
+            </div>
           </div>
+          <Notifications
+            setEmailHTML={setEmailHTML}
+            setPhoneText={setPhoneText}
+            emailHTML={emailHTML}
+            phoneText={phoneText}
+          />
+          <Preview event={event} />
+          <Times
+            endTime={endTime}
+            startTime={startTime}
+            maxCapacity={maxCapacity}
+            maxCapacityEnabled={maxCapacityEnabled}
+            setStartTime={setStartTime}
+            setEndTime={setEndTime}
+            setMaxCapacity={setMaxCapacity}
+            setMaxCapacityEnabled={setMaxCapacityEnabled}
+          />
+          <Delete event={event} />
         </div>
-        <Notifications
-          setEmailHTML={setEmailHTML}
-          setPhoneText={setPhoneText}
-          emailHTML={emailHTML}
-          phoneText={phoneText}
-        />
-        <Preview event={event} />
-        <Times
-          endTime={endTime}
-          startTime={startTime}
-          maxCapacity={maxCapacity}
-          maxCapacityEnabled={maxCapacityEnabled}
-          setStartTime={setStartTime}
-          setEndTime={setEndTime}
-          setMaxCapacity={setMaxCapacity}
-          setMaxCapacityEnabled={setMaxCapacityEnabled}
-        />
-        <Delete
-          event={event}
-          setCreatingEvent={setCreatingEvent}
-          setManagingEvent={setManagingEvent}
-        />
+        <SuccessSnackbar saving={saving} handleClose={handleClose} />
+        <ErrorSnackbar error={error} setError={setError} />
       </div>
-      <SuccessSnackbar saving={saving} handleClose={handleClose} />
-      <ErrorSnackbar error={error} setError={setError} />
-    </div>
+    </RenderAuthPage>
   );
 }
 

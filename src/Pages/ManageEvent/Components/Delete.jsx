@@ -1,21 +1,17 @@
 import React from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { deleteEvent } from "../../../utils/api";
+import { useNavigate } from "react-router-dom";
 
-function Delete({ event, setCreatingEvent, setManagingEvent }) {
-  const { removeUserEvent, user } = useAuth();
+function Delete({ event }) {
+  const { removeUserEvent } = useAuth();
+  const navigate = useNavigate();
 
   function removeEvent() {
     deleteEvent({ eventUUID: event.uuid }).then((res) => {
       if (!res.error) {
         removeUserEvent(event.uuid);
-        if (user.events.length === 1) {
-          setCreatingEvent(true);
-          setManagingEvent(null);
-        } else {
-          setManagingEvent(user.events[user.events.length - 2].uuid);
-          document.querySelector(".content-container").scrollTo(0, 0);
-        }
+        navigate("/dashboard");
       }
     });
   }

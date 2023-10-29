@@ -525,7 +525,7 @@
 
 // export default CreateEvent;
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfoIcon from "@mui/icons-material/Info";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -537,12 +537,15 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import QrCode from "../Components/QrCode";
-import constants from "../constants.json";
+import QrCode from "../../Components/QrCode";
+import constants from "../../constants.json";
 
-import { addEvent, testEmail, testText, uploadImage } from "../utils/api";
+import { addEvent, testEmail, testText, uploadImage } from "../../utils/api";
+import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-function CreateEvent({ addUserEvents, userId }) {
+function CreateEvent() {
   const [startTimeEnabled, setStartTimeEnabled] = useState(false);
   const [endTimeEnabled, setEndTimeEnabled] = useState(false);
   const [maxCapacityEnabled, setMaxCapacityEnabled] = useState(false);
@@ -593,6 +596,13 @@ function CreateEvent({ addUserEvents, userId }) {
   const [emailChecked, setEmailChecked] = useState(false);
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+
+  const navigate = useNavigate();
+  const { user, addUserEvents } = useAuth();
+  useEffect(() => {
+    if (user) setUserId(user.id);
+  }, [user]);
 
   const APP_URI = constants.PRODUCTION_APP_URI;
 
@@ -673,6 +683,7 @@ function CreateEvent({ addUserEvents, userId }) {
             companyName: res.event.companyName,
             _id: res.event._id,
           });
+          navigate(`/dashboard/${res.event.uuid}`);
         });
       }
     });
@@ -703,389 +714,391 @@ function CreateEvent({ addUserEvents, userId }) {
   };
 
   return (
-    <div style={styles.mainContainer}>
-      <div style={styles.innerContainer}>
-        <Typography variant="h4" gutterBottom>
-          Create a New Event
-        </Typography>
-        <form
-          style={{ width: "60%", marginBottom: "20px" }}
-          className="registration-form"
-          onSubmit={!event ? handleSubmit : (e) => e.preventDefault()}
-        >
-          <div className="company-name form-group">
-            <label htmlFor="companyName">Company Name*</label>
-            <TextField
-              type="text"
-              id="companyName"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              required
-              style={styles.textInput}
-            />
-          </div>
-
-          <div className="landing-text form-group">
-            <label htmlFor="landingText">
-              Landing Page Text{" "}
-              <Tooltip title="Text at the top of the screen of the event form">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </label>
-            <TextField
-              type="text"
-              id="landingText"
-              defaultValue={"Receive Promotion from {CompanyName}"}
-              value={landingText}
-              onChange={(event) => setLandingText(event.target.value)}
-              required
-              style={styles.textInput}
-            />
-          </div>
-
-          <div className="font-color form-group">
-            <label htmlFor="fontColor">
-              Text Font Color (Hex){" "}
-              <Tooltip title="Change font color to not interfere with background">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </label>
-            <TextField
-              type="text"
-              id="fontColor"
-              value={fontColor}
-              onChange={(event) => setFontColor(event.target.value)}
-              required
-              style={styles.textInput}
-            />
-          </div>
-
-          <div className="start-time form-group">
-            <label
-              htmlFor="startTime"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Start Time*
-              <Tooltip title="Begin accepting submissions at a certain time">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={startTimeEnabled}
-                    onChange={(event) =>
-                      setStartTimeEnabled(event.target.checked)
-                    }
-                  />
-                }
-                label=""
-              />
-            </label>
-            <TextField
-              type="datetime-local"
-              id="startTime"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              style={styles.textInput}
-              disabled={!startTimeEnabled}
-            />
-          </div>
-
-          <div className="end-time form-group">
-            <label
-              htmlFor="endTime"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              End Time
-              <Tooltip title="Stop accepting submissions after a certain time (optional)">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={endTimeEnabled}
-                    onChange={(event) =>
-                      setEndTimeEnabled(event.target.checked)
-                    }
-                  />
-                }
-                label=""
-              />
-            </label>
-            <TextField
-              type="datetime-local"
-              id="endTime"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              style={styles.textInput}
-              disabled={!endTimeEnabled}
-            />
-          </div>
-
-          <div className="max-capacity form-group">
-            <label
-              htmlFor="maxCapacity"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Maximum Event Capacity{" "}
-              <Tooltip title="Stop accepting submissions after a certain amount of people (optional)">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={maxCapacityEnabled}
-                    onChange={(event) =>
-                      setMaxCapacityEnabled(event.target.checked)
-                    }
-                  />
-                }
-                label=""
-              />
-            </label>
-            <TextField
-              type="number"
-              id="maxCapacity"
-              value={maxCapacity}
-              onChange={(e) => setMaxCapacity(e.target.value)}
-              style={styles.textInput}
-              disabled={!maxCapacityEnabled}
-            />
-          </div>
-
-          <div className="email-html">
-            <label
-              htmlFor="emailHTML"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Email HTML{" "}
-              <Tooltip title="HTML Code for the email being sent. A plain message is also accepted. QR Code gets automatically appended">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </label>
-            <TextField
-              id="emailHTML"
-              value={emailHtml}
-              multiline
-              rows={4}
-              variant="outlined"
-              onChange={(e) => setEmailHtml(e.target.value)}
-              style={styles.textInput}
-            />
-            <div>
-              <label htmlFor="testEmail">Test Email: </label>
-              <TextField
-                type="text"
-                id="testEmail"
-                value={testEmailAddress}
-                placeholder="Email address"
-                onChange={(e) => setTestEmailAddress(e.target.value)}
-              />
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleTestEmail}
-            >
-              Test Email
-            </Button>
-          </div>
-
-          <div className="phone-text">
-            <label
-              htmlFor="phoneText"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Phone Message Text{" "}
-              <Tooltip title="What will be texted along with QR Code to the user">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </label>
-            <TextField
-              type="text"
-              id="phoneText"
-              value={phoneText}
-              onChange={(e) => setPhoneText(e.target.value)}
-              style={styles.textInput}
-            />
-            <div>
-              <label htmlFor="testPhone">Test Text Message: </label>
-              <TextField
-                type="text"
-                id="testPhone"
-                value={testPhoneNumber}
-                placeholder="Phone Number"
-                onChange={(e) => setTestPhoneNumber(e.target.value)}
-              />
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleTestText}
-            >
-              Test Text Message
-            </Button>
-          </div>
-
-          <div className="further-contact form-group">
-            <label
-              htmlFor="furtherContact"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Further Contact{" "}
-              <Tooltip title="Users consent to letting the company use their information for further marketing">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-            </label>
-            <Select
-              id="furtherContact"
-              value={furtherContact}
-              onChange={(e) => setFurtherContact(e.target.value)}
-              style={styles.textInput}
-            >
-              <MenuItem value="None">None</MenuItem>
-              <MenuItem value="Required">Required</MenuItem>
-              <MenuItem value="Optional">Optional</MenuItem>
-            </Select>
-          </div>
-
-          <div className="background-file">
-            <label
-              htmlFor="backgroundFile"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              Background Image{" "}
-              <Tooltip title="Background Image for the form. Ensure proper aspect ratio">
-                <IconButton>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={fileEnabled}
-                    onChange={(event) => setFileEnabled(event.target.checked)}
-                  />
-                }
-                label=""
-              />
-            </label>
-            <input
-              type="file"
-              id="backgroundFile"
-              accept=".png, .jpg"
-              onChange={(e) => setFile(e.target.files[0])}
-              style={styles.textInput}
-              disabled={!fileEnabled}
-            />
-          </div>
-
-          <div className="checkbox-group">
-            <Typography variant="body1">Information to Collect:</Typography>
-            <div className="checkbox">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={emailChecked}
-                    onChange={() => setEmailChecked(!emailChecked)}
-                  />
-                }
-                label="Email"
-              />
-            </div>
-            <div className="checkbox">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={phoneChecked}
-                    onChange={() => setPhoneChecked(!phoneChecked)}
-                  />
-                }
-                label="Phone"
-              />
-            </div>
-            <div className="checkbox">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={ageChecked}
-                    onChange={() => setAgeChecked(!ageChecked)}
-                  />
-                }
-                label="Age"
-              />
-            </div>
-            <div className="checkbox">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={nameChecked}
-                    onChange={() => setNameChecked(!nameChecked)}
-                  />
-                }
-                label="Name"
-              />
-            </div>
-          </div>
-
-          {error && (
-            <Typography variant="body2" style={{ color: "red" }}>
-              {error}
-            </Typography>
-          )}
-
-          <Button
-            variant="contained"
-            color={!event ? "primary" : "secondary"}
-            style={{
-              color: "white",
-              borderRadius: "5px",
-              padding: "10px 20px",
-              cursor: !event ? "pointer" : "default",
-              fontSize: "16px",
-              width: "100%",
-              marginTop: "20px",
-            }}
-            type="submit"
+    <RenderAuthPage>
+      <div style={styles.mainContainer}>
+        <div style={styles.innerContainer}>
+          <Typography variant="h4" gutterBottom>
+            Create a New Event
+          </Typography>
+          <form
+            style={{ width: "60%", marginBottom: "20px" }}
+            className="registration-form"
+            onSubmit={!event ? handleSubmit : (e) => e.preventDefault()}
           >
-            Submit
-          </Button>
-
-          {!!event && (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h6" gutterBottom>
-                Save this QR code to get to your event!
-              </Typography>
-              <QrCode linkTo={APP_URI + "/event/" + event.uuid} />
+            <div className="company-name form-group">
+              <label htmlFor="companyName">Company Name*</label>
+              <TextField
+                type="text"
+                id="companyName"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                required
+                style={styles.textInput}
+              />
             </div>
-          )}
-        </form>
+
+            <div className="landing-text form-group">
+              <label htmlFor="landingText">
+                Landing Page Text{" "}
+                <Tooltip title="Text at the top of the screen of the event form">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
+              <TextField
+                type="text"
+                id="landingText"
+                defaultValue={"Receive Promotion from {CompanyName}"}
+                value={landingText}
+                onChange={(event) => setLandingText(event.target.value)}
+                required
+                style={styles.textInput}
+              />
+            </div>
+
+            <div className="font-color form-group">
+              <label htmlFor="fontColor">
+                Text Font Color (Hex){" "}
+                <Tooltip title="Change font color to not interfere with background">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
+              <TextField
+                type="text"
+                id="fontColor"
+                value={fontColor}
+                onChange={(event) => setFontColor(event.target.value)}
+                required
+                style={styles.textInput}
+              />
+            </div>
+
+            <div className="start-time form-group">
+              <label
+                htmlFor="startTime"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Start Time*
+                <Tooltip title="Begin accepting submissions at a certain time">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={startTimeEnabled}
+                      onChange={(event) =>
+                        setStartTimeEnabled(event.target.checked)
+                      }
+                    />
+                  }
+                  label=""
+                />
+              </label>
+              <TextField
+                type="datetime-local"
+                id="startTime"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                style={styles.textInput}
+                disabled={!startTimeEnabled}
+              />
+            </div>
+
+            <div className="end-time form-group">
+              <label
+                htmlFor="endTime"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                End Time
+                <Tooltip title="Stop accepting submissions after a certain time (optional)">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={endTimeEnabled}
+                      onChange={(event) =>
+                        setEndTimeEnabled(event.target.checked)
+                      }
+                    />
+                  }
+                  label=""
+                />
+              </label>
+              <TextField
+                type="datetime-local"
+                id="endTime"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                style={styles.textInput}
+                disabled={!endTimeEnabled}
+              />
+            </div>
+
+            <div className="max-capacity form-group">
+              <label
+                htmlFor="maxCapacity"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Maximum Event Capacity{" "}
+                <Tooltip title="Stop accepting submissions after a certain amount of people (optional)">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={maxCapacityEnabled}
+                      onChange={(event) =>
+                        setMaxCapacityEnabled(event.target.checked)
+                      }
+                    />
+                  }
+                  label=""
+                />
+              </label>
+              <TextField
+                type="number"
+                id="maxCapacity"
+                value={maxCapacity}
+                onChange={(e) => setMaxCapacity(e.target.value)}
+                style={styles.textInput}
+                disabled={!maxCapacityEnabled}
+              />
+            </div>
+
+            <div className="email-html">
+              <label
+                htmlFor="emailHTML"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Email HTML{" "}
+                <Tooltip title="HTML Code for the email being sent. A plain message is also accepted. QR Code gets automatically appended">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
+              <TextField
+                id="emailHTML"
+                value={emailHtml}
+                multiline
+                rows={4}
+                variant="outlined"
+                onChange={(e) => setEmailHtml(e.target.value)}
+                style={styles.textInput}
+              />
+              <div>
+                <label htmlFor="testEmail">Test Email: </label>
+                <TextField
+                  type="text"
+                  id="testEmail"
+                  value={testEmailAddress}
+                  placeholder="Email address"
+                  onChange={(e) => setTestEmailAddress(e.target.value)}
+                />
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleTestEmail}
+              >
+                Test Email
+              </Button>
+            </div>
+
+            <div className="phone-text">
+              <label
+                htmlFor="phoneText"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Phone Message Text{" "}
+                <Tooltip title="What will be texted along with QR Code to the user">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
+              <TextField
+                type="text"
+                id="phoneText"
+                value={phoneText}
+                onChange={(e) => setPhoneText(e.target.value)}
+                style={styles.textInput}
+              />
+              <div>
+                <label htmlFor="testPhone">Test Text Message: </label>
+                <TextField
+                  type="text"
+                  id="testPhone"
+                  value={testPhoneNumber}
+                  placeholder="Phone Number"
+                  onChange={(e) => setTestPhoneNumber(e.target.value)}
+                />
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleTestText}
+              >
+                Test Text Message
+              </Button>
+            </div>
+
+            <div className="further-contact form-group">
+              <label
+                htmlFor="furtherContact"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Further Contact{" "}
+                <Tooltip title="Users consent to letting the company use their information for further marketing">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
+              <Select
+                id="furtherContact"
+                value={furtherContact}
+                onChange={(e) => setFurtherContact(e.target.value)}
+                style={styles.textInput}
+              >
+                <MenuItem value="None">None</MenuItem>
+                <MenuItem value="Required">Required</MenuItem>
+                <MenuItem value="Optional">Optional</MenuItem>
+              </Select>
+            </div>
+
+            <div className="background-file">
+              <label
+                htmlFor="backgroundFile"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Background Image{" "}
+                <Tooltip title="Background Image for the form. Ensure proper aspect ratio">
+                  <IconButton>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={fileEnabled}
+                      onChange={(event) => setFileEnabled(event.target.checked)}
+                    />
+                  }
+                  label=""
+                />
+              </label>
+              <input
+                type="file"
+                id="backgroundFile"
+                accept=".png, .jpg"
+                onChange={(e) => setFile(e.target.files[0])}
+                style={styles.textInput}
+                disabled={!fileEnabled}
+              />
+            </div>
+
+            <div className="checkbox-group">
+              <Typography variant="body1">Information to Collect:</Typography>
+              <div className="checkbox">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={emailChecked}
+                      onChange={() => setEmailChecked(!emailChecked)}
+                    />
+                  }
+                  label="Email"
+                />
+              </div>
+              <div className="checkbox">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={phoneChecked}
+                      onChange={() => setPhoneChecked(!phoneChecked)}
+                    />
+                  }
+                  label="Phone"
+                />
+              </div>
+              <div className="checkbox">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={ageChecked}
+                      onChange={() => setAgeChecked(!ageChecked)}
+                    />
+                  }
+                  label="Age"
+                />
+              </div>
+              <div className="checkbox">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={nameChecked}
+                      onChange={() => setNameChecked(!nameChecked)}
+                    />
+                  }
+                  label="Name"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <Typography variant="body2" style={{ color: "red" }}>
+                {error}
+              </Typography>
+            )}
+
+            <Button
+              variant="contained"
+              color={!event ? "primary" : "secondary"}
+              style={{
+                color: "white",
+                borderRadius: "5px",
+                padding: "10px 20px",
+                cursor: !event ? "pointer" : "default",
+                fontSize: "16px",
+                width: "100%",
+                marginTop: "20px",
+              }}
+              type="submit"
+            >
+              Submit
+            </Button>
+
+            {!!event && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="h6" gutterBottom>
+                  Save this QR code to get to your event!
+                </Typography>
+                <QrCode linkTo={APP_URI + "/event/" + event.uuid} />
+              </div>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
+    </RenderAuthPage>
   );
 }
 
