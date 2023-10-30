@@ -4,7 +4,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import { useAuth } from "../../../hooks/useAuth";
 import { uploadProfilePicture } from "../../../utils/api";
-import constants from "../../../constants.json";
 
 function General() {
   const fileRef = useRef(null);

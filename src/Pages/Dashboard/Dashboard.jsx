@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
+import Avatar from "@mui/material/Avatar";
 
 function Dashboard() {
   document.title = "Event Dashboard";
@@ -44,7 +45,19 @@ function Dashboard() {
           }}
           className="image"
         >
-          <img
+          <Avatar
+            sx={{
+              height: 150,
+              width: 150,
+              borderRadius: "100%",
+            }}
+            src={
+              !!user.profileImagePath
+                ? `/api/image/${user.profileImagePath}`
+                : "/images/default-user/jpg"
+            }
+          />
+          {/* <img
             src={
               !!user.profileImagePath
                 ? `/api/image/${user.profileImagePath}`
@@ -57,7 +70,7 @@ function Dashboard() {
               display: "inline-block",
               borderRadius: " 100%",
             }}
-          />
+          /> */}
         </div>
         <div className="info">
           <h3 style={{ fontFamily: "Roboto" }}>{user.username}</h3>
