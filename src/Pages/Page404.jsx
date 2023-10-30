@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Page404() {
   document.title = "Error: 404";
+
+  let navigate = useNavigate();
 
   // TODO: Unsteal 404 page
   return (
@@ -39,7 +42,8 @@ function Page404() {
           fontSize: "12px",
         }}
       >
-        The Page you are looking for doesn't exist.
+        The Page you are looking for doesn't exist.<br />
+        <button onClick={() => navigate(-1)} className="button-dark">Go Back</button>
       </p>
     </div>
   );

@@ -1,27 +1,81 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Badge from "@mui/material/Badge";
 import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import { useAuth } from "../../../hooks/useAuth";
 import { uploadProfilePicture } from "../../../utils/api";
 
-function General() {
+export function General({ setError }) {
+  // State
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [city, setCity] = useState("");
+
   const fileRef = useRef(null);
   const { user, updateUserProperty } = useAuth();
+
+  // Set state variables once user loads
+  useEffect(() => {
+    if (user) {
+      setFirstName(user?.name?.first || "");
+      setLastName(user?.name?.last || "");
+      setEmail(user.email || "");
+      setUsername(user.username || "");
+      setPhoneNumber(user.phoneNumber || "");
+      setStreetAddress(user?.address?.street || "");
+      setZipCode(user?.address?.zip || "");
+      setCity(user?.address?.city || "");
+    }
+  }, [user]);
 
   function openFile() {
     fileRef.current.click();
   }
 
   function imageUpload(event) {
-    console.log("Ran");
     const file = new FormData();
     file.append("image", event.target.files[0], event.target.files[0].name);
 
-    console.log("What");
     uploadProfilePicture({ image: file }).then((data) => {
       updateUserProperty("profileImagePath", data.filename);
     });
+  }
+
+  function save() {
+    if (!email) return setError("Must provide an email");
+    if (!username) return setError("Must provide a username");
+
+    if (username.length < 8)
+      return setError("Username must be longer than 8 characters");
+
+    let userRegex = new RegExp(
+      /^(?=.{8,20}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_. ])$/
+    );
+    if (!userRegex.test(username)) 
+      return setError("Invalid username")
+    
+
+    let emailRegex = new RegExp(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+    if (!emailRegex.test(email.toLowerCase())) 
+      return setError("Invalid email")
+    
+    let phoneRegex = new RegExp(
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+    )
+    if (phoneNumber && !phoneRegex.test(phoneNumber))
+      return setError("Invalid phone number")
+
+    if (zipCode && (zipCode.length != 5 || isNaN(parseInt(zipCode))))
+      return setError("Invalid ZIP Code")
+
+      // TODO: Do later
   }
 
   if (!user) return <></>;
@@ -57,34 +111,70 @@ function General() {
       <div className="settings-inputs">
         <div className="settings-first">
           <p>First Name</p>
-          <input className="settings-input" />
+          <input
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-last">
           <p>Last Name</p>
-          <input className="settings-input" />
+          <input
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-email">
           <p>Email Address</p>
-          <input className="settings-input" />
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="settings-input"
+          />
+        </div>
+        <div className="settings-username">
+          <p>Username</p>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-phone">
           <p>Phone Number</p>
-          <input className="settings-input" />
+          <input
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-address">
           <p>Street Address</p>
-          <input className="settings-input" />
+          <input
+            value={streetAddress}
+            onChange={(e) => setStreetAddress(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-zip">
           <p>ZIP Code</p>
-          <input className="settings-input" />
+          <input
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-city">
           <p>City</p>
-          <input className="settings-input" />
+          <input
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="settings-input"
+          />
         </div>
         <div className="settings-save">
-          <button className="button-dark settings-save-button">
+          <button onClick={save} className="button-dark settings-save-button">
             Save Changes
           </button>
         </div>

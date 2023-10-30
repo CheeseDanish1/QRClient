@@ -4,6 +4,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { General, Notifications, Security, Tab } from "./Components/";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
 import "./index.css";
 
 const tabs = [
@@ -11,24 +14,26 @@ const tabs = [
     name: "General Info",
     id: "info",
     icon: <PersonIcon />,
-    render: <General />,
+    render: General,
   },
   {
     name: "Password and Security",
     id: "security",
     icon: <LockIcon />,
-    render: <Security />,
+    render: Security,
   },
   {
     name: "Notifications",
     id: "notifications",
     icon: <NotificationsIcon />,
-    render: <Notifications />,
+    render: Notifications,
   },
 ];
 
 function Settings() {
   const [settingsTab, setSettingsTab] = useState("info");
+  const [error, setError] = useState("")
+
   return (
     <RenderAuthPage>
       <div style={{ padding: "20px 50px" }}>
@@ -47,15 +52,41 @@ function Settings() {
             );
           })}
         </div>
-        <RenderSettings state={settingsTab} />
+        <RenderSettings setError={setError} state={settingsTab} />
       </div>
+      <ErrorSnackbar error={error} setError={setError} />
     </RenderAuthPage>
   );
 }
 
-function RenderSettings({ state }) {
-  const indexOf = tabs.findIndex((tab) => tab.id === state);
-  return indexOf >= 0 ? tabs[indexOf].render : tabs[0].render;
+function ErrorSnackbar({ error, setError }) {
+  return (
+    <Snackbar
+      anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      open={!!error}
+      autoHideDuration={3000}
+      onClose={() => setError(null)}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={() => setError(null)}
+        severity="error"
+        sx={{ width: "100%" }}
+      >
+        {error}
+      </MuiAlert>
+    </Snackbar>
+  );
 }
+
+function RenderSettings({ state, setError }) {
+  const indexOf = tabs.findIndex((tab) => tab.id === state);
+  let index = indexOf > 0 ? indexOf : 0;
+  let Component = tabs[index].render; // Ensure the variable name starts with an uppercase letter for components.
+
+  return <Component setError={setError} />;
+}
+
 
 export default Settings;

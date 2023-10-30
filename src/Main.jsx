@@ -78,9 +78,9 @@ export default function Main() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (!isLoading) console.log("User changed");
-  }, [user]);
+  // useEffect(() => {
+  //   if (!isLoading) console.log("User changed");
+  // }, [user]);
 
   return (
     <div className="App">

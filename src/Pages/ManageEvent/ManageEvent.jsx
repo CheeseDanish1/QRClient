@@ -198,7 +198,7 @@ function ManageEvent() {
             setMaxCapacity={setMaxCapacity}
             setMaxCapacityEnabled={setMaxCapacityEnabled}
           />
-          <Delete event={event} />
+          <Delete setError={setError} event={event} />
         </div>
         <SuccessSnackbar saving={saving} handleClose={handleClose} />
         <ErrorSnackbar error={error} setError={setError} />

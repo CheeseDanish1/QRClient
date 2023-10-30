@@ -682,7 +682,7 @@ function CreateEvent() {
             companyName: res.event.companyName,
             _id: res.event._id,
           });
-          navigate(`/dashboard/${res.event.uuid}`);
+          navigate(`/dashboard`);
         });
       }
     });

@@ -3,16 +3,16 @@ import { useAuth } from "../../../hooks/useAuth";
 import { deleteEvent } from "../../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-function Delete({ event }) {
+function Delete({ event, setError }) {
   const { removeUserEvent } = useAuth();
   const navigate = useNavigate();
 
   function removeEvent() {
     deleteEvent({ eventUUID: event.uuid }).then((res) => {
-      if (!res.error) {
-        removeUserEvent(event.uuid);
-        navigate("/dashboard");
-      }
+      if (res.data.error) return setError(res.data.message)
+
+      removeUserEvent(event.uuid);
+      navigate("/dashboard"); 
     });
   }
 
