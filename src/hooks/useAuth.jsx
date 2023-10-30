@@ -1,5 +1,11 @@
 import React, { useState, useContext, createContext } from "react";
-import { login, logout, signup_auth, getUser } from "../utils/api";
+import {
+  login,
+  logout,
+  signup_auth,
+  getUser,
+  updateCookie,
+} from "../utils/api";
 
 const AuthContext = createContext();
 
@@ -134,6 +140,16 @@ function useProvideAuth() {
     });
   }
 
+  function updateUserProperty(property, value) {
+    setUser((prev) => {
+      return {
+        ...prev,
+        [property]: value,
+      };
+    });
+    updateCookie();
+  }
+
   function signout() {
     return logout().then(({ data }) => {
       if (data.succuss) setUser(null);
@@ -154,5 +170,6 @@ function useProvideAuth() {
     addUserEvents,
     removeUserEvent,
     updateUserEvent,
+    updateUserProperty,
   };
 }

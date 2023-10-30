@@ -38,11 +38,27 @@ function Dashboard() {
           style={{
             height: 150,
             width: 150,
-            backgroundColor: "red",
+            // backgroundColor: "red",
             borderRadius: "100%",
             marginRight: 30,
           }}
-        />
+          className="image"
+        >
+          <img
+            src={
+              !!user.profileImagePath
+                ? `/api/image/${user.profileImagePath}`
+                : "/images/default-user/jpg"
+            }
+            alt="profile"
+            style={{
+              height: 150,
+              width: 150,
+              display: "inline-block",
+              borderRadius: " 100%",
+            }}
+          />
+        </div>
         <div className="info">
           <h3 style={{ fontFamily: "Roboto" }}>{user.username}</h3>
           <h1 style={{ fontFamily: "Roboto" }}>Shared with me</h1>
@@ -84,6 +100,7 @@ function Dashboard() {
                   return (
                     <TableRow
                       hover
+                      key={i}
                       onClick={() => navigate(`/dashboard/${event.uuid}`)}
                       role="checkbox"
                       tabIndex={-1}
@@ -93,7 +110,7 @@ function Dashboard() {
                       }}
                     >
                       <TableCell>{event.companyName}</TableCell>
-                      <TableCell>{event.createdBy}</TableCell>
+                      <TableCell>{event.createdBy.username}</TableCell>
                       <TableCell>{formatDate(event.timeCreated)}</TableCell>
                       <TableCell>
                         {event.lastUpdated

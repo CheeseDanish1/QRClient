@@ -137,10 +137,10 @@ function ManageEvent() {
 
     setLoading(true);
     updateEvent({ event: currentEvent }).then((res) => {
-      if (res.error) return setError("Unknown Error");
+      setLoading(false);
+      if (res.data.error) return setError(res.data.message);
 
       updateUserEvent(currentEvent);
-      setLoading(false);
       setSaving(true);
     });
   }

@@ -596,13 +596,9 @@ function CreateEvent() {
   const [emailChecked, setEmailChecked] = useState(false);
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
-  const [userId, setUserId] = useState(null);
 
   const navigate = useNavigate();
   const { user, addUserEvents } = useAuth();
-  useEffect(() => {
-    if (user) setUserId(user.id);
-  }, [user]);
 
   const APP_URI = constants.PRODUCTION_APP_URI;
 
@@ -674,7 +670,10 @@ function CreateEvent() {
             emailHTML: emailHtml,
             phoneText: phoneText,
           },
-          createdBy: userId,
+          createdBy: {
+            uuid: user.id,
+            username: user.username,
+          },
         }).then((res) => {
           if (res.error) return setError(res.message);
           addUserEvents(res.event);

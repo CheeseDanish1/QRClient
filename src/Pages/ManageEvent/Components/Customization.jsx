@@ -35,11 +35,8 @@ function Customization({
     const file = new FormData();
     file.append("image", event.target.files[0], event.target.files[0].name);
 
-    console.log(file);
-
     uploadImage(imageEnabled, file).then((data) => {
       setImagePath(data.filename);
-      console.log(data);
     });
   }
 

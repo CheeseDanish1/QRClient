@@ -13,6 +13,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import ManageEvent from "./Pages/ManageEvent/ManageEvent";
 import CreateEvent from "./Pages/CreateEvent/CreateEvent";
+import Settings from "./Pages/Settings/Settings";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     element: <CreateEvent />,
   },
   {
+    path: "/settings",
+    element: <Settings />,
+  },
+  {
     path: "/scan",
     element: <Scan />,
     errorElement: <Page404 />,
@@ -61,7 +66,7 @@ const router = createBrowserRouter([
 
 export default function Main() {
   const [spinner, setSpinner] = useState(false);
-  const { isUser, isLoading } = useAuth();
+  const { isUser, isLoading, user } = useAuth();
 
   useEffect(() => {
     setSpinner(!isLoading);
@@ -72,6 +77,10 @@ export default function Main() {
     // Adding isUser as a dependency causes an infinite request loop
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) console.log("User changed");
+  }, [user]);
 
   return (
     <div className="App">
