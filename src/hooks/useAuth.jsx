@@ -150,6 +150,19 @@ function useProvideAuth() {
     updateCookie();
   }
 
+  function updateUserGeneralPage({ username, email, phoneNumber, name, address }) {
+    setUser((prev) => {
+      return {
+        ...prev,
+        username,
+        email,
+        phoneNumber,
+        name,address
+      }
+    })
+    updateCookie();
+  }
+
   function signout() {
     return logout().then(({ data }) => {
       if (data.succuss) setUser(null);
@@ -171,5 +184,6 @@ function useProvideAuth() {
     removeUserEvent,
     updateUserEvent,
     updateUserProperty,
+    updateUserGeneralPage
   };
 }

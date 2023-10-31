@@ -672,7 +672,7 @@ function CreateEvent() {
           },
           createdBy: {
             uuid: user.id,
-            username: user.username,
+            // username: user.username,
           },
         }).then((res) => {
           if (res.error) return setError(res.message);

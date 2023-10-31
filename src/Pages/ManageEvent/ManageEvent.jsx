@@ -140,7 +140,7 @@ function ManageEvent() {
       setLoading(false);
       if (res.data.error) return setError(res.data.message);
 
-      updateUserEvent(currentEvent);
+      updateUserEvent(res.data.event);
       setSaving(true);
     });
   }

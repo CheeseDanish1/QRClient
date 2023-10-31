@@ -1,13 +1,22 @@
 import axios from "axios";
 // eslint-disable-next-line
-const { PRODUCTION_API_URI } = require("../constants.json");
+const { PRODUCTION_API_URI, API_URI } = require("../constants.json");
 
-const API_URI = PRODUCTION_API_URI;
+// const API_URI = PRODUCTION_API_URI;
 
 export async function getUser() {
   return axios({
     url: `${API_URI}/auth/local/user`,
     method: "GET",
+    withCredentials: true,
+  });
+}
+
+export function updateUserGeneral(body) {
+  return axios({
+    url: `${API_URI}/api/user/general`,
+    method: "POST",
+    data: body,
     withCredentials: true,
   });
 }
@@ -50,6 +59,14 @@ export async function uploadProfilePicture({ image }) {
     withCredentials: true,
   });
   return res.data;
+}
+
+export async function getUsernameFromId(id) {
+  return axios({
+    url: `${API_URI}/api/username/${id}`,
+    method: "GET",
+    withCredentials: true,
+  });
 }
 
 export async function login({ password, email }) {

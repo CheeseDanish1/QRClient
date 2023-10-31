@@ -3,9 +3,9 @@ import Badge from "@mui/material/Badge";
 import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import { useAuth } from "../../../hooks/useAuth";
-import { uploadProfilePicture } from "../../../utils/api";
+import { uploadProfilePicture,updateUserGeneral } from "../../../utils/api";
 
-export function General({ setError }) {
+export function General({ setError, setSaving }) {
   // State
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -17,7 +17,7 @@ export function General({ setError }) {
   const [city, setCity] = useState("");
 
   const fileRef = useRef(null);
-  const { user, updateUserProperty } = useAuth();
+  const { user, updateUserProperty, updateUserGeneralPage } = useAuth();
 
   // Set state variables once user loads
   useEffect(() => {
@@ -47,35 +47,29 @@ export function General({ setError }) {
   }
 
   function save() {
-    if (!email) return setError("Must provide an email");
-    if (!username) return setError("Must provide a username");
+    const newUserInfo = {
+      username: username,
+      name: {
+        first: firstName,
+        last: lastName,
+      },
+      email,
+      phoneNumber,
+      address: {
+        street: streetAddress,
+        zip: zipCode,
+        city
+      },
+    }
 
-    if (username.length < 8)
-      return setError("Username must be longer than 8 characters");
+    // TODO: Do later
+    updateUserGeneral(newUserInfo).then((res) => {
+      if (res.data.error) return setError(res.data.message)
 
-    let userRegex = new RegExp(
-      /^(?=.{8,20}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_. ])$/
-    );
-    if (!userRegex.test(username)) 
-      return setError("Invalid username")
-    
+      updateUserGeneralPage(newUserInfo);
+      setSaving(true)
+    })
 
-    let emailRegex = new RegExp(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    if (!emailRegex.test(email.toLowerCase())) 
-      return setError("Invalid email")
-    
-    let phoneRegex = new RegExp(
-      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
-    )
-    if (phoneNumber && !phoneRegex.test(phoneNumber))
-      return setError("Invalid phone number")
-
-    if (zipCode && (zipCode.length != 5 || isNaN(parseInt(zipCode))))
-      return setError("Invalid ZIP Code")
-
-      // TODO: Do later
   }
 
   if (!user) return <></>;

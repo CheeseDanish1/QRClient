@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
@@ -11,16 +11,38 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import Avatar from "@mui/material/Avatar";
+import { getUsernameFromId } from "../../utils/api";
 
 function Dashboard() {
   document.title = "Event Dashboard";
 
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
+  const [usernames, setUsernames] = useState([])
 
   useEffect(() => {
     if (!isLoading && !user) navigate("/login");
   }, [user, isLoading, navigate]);
+
+  useEffect(() => {
+    if (user && usernames.length == 0) {
+      user.events.forEach((event) => {
+        getUsernameFromId(event.createdBy.uuid).then((res) => {
+          setUsernames(prev => {
+            return [
+              ...prev,
+              {
+                username: res.data.username,
+                uuid: event.createdBy.uuid
+              }
+            ]
+          })
+          // console.log(res.data.username)
+        })
+        // getUsernameFromId()
+      })
+    }
+  }, [user, usernames])
 
   if (!user) return;
 
@@ -123,7 +145,7 @@ function Dashboard() {
                       }}
                     >
                       <TableCell>{event.companyName}</TableCell>
-                      <TableCell>{event.createdBy.username}</TableCell>
+                      <TableCell>{usernames.length > 0 ? usernames.find(u => u.uuid == user.id).username : "Loading..."}</TableCell>
                       <TableCell>{formatDate(event.timeCreated)}</TableCell>
                       <TableCell>
                         {event.lastUpdated
