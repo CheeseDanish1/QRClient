@@ -12,6 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import Avatar from "@mui/material/Avatar";
 import { getUsernameFromId } from "../../utils/api";
+import CreateEvent from "../CreateEvent/CreateEvent";
 
 function Dashboard() {
   document.title = "Event Dashboard";
@@ -19,13 +20,14 @@ function Dashboard() {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
   const [usernames, setUsernames] = useState([])
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (!isLoading && !user) navigate("/login");
   }, [user, isLoading, navigate]);
 
   useEffect(() => {
-    if (user && usernames.length == 0) {
+    if (user && usernames.length === 0) {
       user.events.forEach((event) => {
         getUsernameFromId(event.createdBy.uuid).then((res) => {
           setUsernames(prev => {
@@ -101,7 +103,7 @@ function Dashboard() {
       </div>
       <div style={{ width: "90%", display: "flex", justifyContent: "end" }}>
         <button
-          onClick={() => navigate("/dashboard/create")}
+          onClick={() => setShowModal(true)}
           className="button-dark"
         >
           Create New
@@ -145,7 +147,7 @@ function Dashboard() {
                       }}
                     >
                       <TableCell>{event.companyName}</TableCell>
-                      <TableCell>{usernames.length > 0 ? usernames.find(u => u.uuid == user.id).username : "Loading..."}</TableCell>
+                      <TableCell>{usernames.length > 0 ? usernames.find(u => u.uuid === user.id).username : "Loading..."}</TableCell>
                       <TableCell>{formatDate(event.timeCreated)}</TableCell>
                       <TableCell>
                         {event.lastUpdated
@@ -160,6 +162,7 @@ function Dashboard() {
           </TableContainer>
         </div>
       </div>
+      <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />
     </RenderAuthPage>
   );
 }

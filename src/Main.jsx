@@ -66,7 +66,7 @@ const router = createBrowserRouter([
 
 export default function Main() {
   const [spinner, setSpinner] = useState(false);
-  const { isUser, isLoading, user } = useAuth();
+  const { isUser, isLoading } = useAuth();
 
   useEffect(() => {
     setSpinner(!isLoading);
