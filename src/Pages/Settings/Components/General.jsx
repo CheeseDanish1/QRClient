@@ -3,7 +3,7 @@ import Badge from "@mui/material/Badge";
 import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import { useAuth } from "../../../hooks/useAuth";
-import { uploadProfilePicture,updateUserGeneral } from "../../../utils/api";
+import { uploadProfilePicture, updateUserGeneral } from "../../../utils/api";
 
 export function General({ setError, setSaving }) {
   // State
@@ -58,18 +58,16 @@ export function General({ setError, setSaving }) {
       address: {
         street: streetAddress,
         zip: zipCode,
-        city
+        city,
       },
-    }
+    };
 
-    // TODO: Do later
     updateUserGeneral(newUserInfo).then((res) => {
-      if (res.data.error) return setError(res.data.message)
+      if (res.data.error) return setError(res.data.message);
 
       updateUserGeneralPage(newUserInfo);
-      setSaving(true)
-    })
-
+      setSaving(true);
+    });
   }
 
   if (!user) return <></>;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Scan from "./Pages/Scan";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Event from "./Pages/Event";
+import Event from "./Pages/EventSubmission/EventSubmission";
 import Page404 from "./Pages/Page404";
 import QrCode from "./Components/QrCode";
 import Redeem from "./Pages/Redeem";
@@ -77,10 +77,6 @@ export default function Main() {
     // Adding isUser as a dependency causes an infinite request loop
     // eslint-disable-next-line
   }, []);
-
-  // useEffect(() => {
-  //   if (!isLoading) console.log("User changed");
-  // }, [user]);
 
   return (
     <div className="App">
