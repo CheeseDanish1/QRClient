@@ -6,106 +6,105 @@ import "./index.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import Avatar from "@mui/material/Avatar";
-import { getUsernameFromId } from "../../utils/api";
 import CreateEvent from "../CreateEvent/CreateEvent";
+import DashboardRow from "./Components/DashboardRow";
+import { getUsernameFromId } from "../../utils/api";
+
+const style = {
+  dashboardHeader: {
+    padding: 50,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  dashboardImage: {
+    height: 150,
+    width: 150,
+    borderRadius: "100%",
+    marginRight: 30,
+  },
+  dashboardAvatar: {
+    height: 150,
+    width: 150,
+    borderRadius: "100%",
+  },
+  dashboardTitle: {
+    fontFamily: "Roboto",
+    marginTop: 25,
+    marginLeft: 10,
+  },
+  dashboardButtonContainer: {
+    width: "90%",
+    display: "flex",
+    justifyContent: "end",
+  },
+};
 
 function Dashboard() {
   document.title = "Event Dashboard";
 
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
-  const [usernames, setUsernames] = useState([])
-  const [showModal, setShowModal] = useState(false)
+  const [usernames, setUsernames] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !user) navigate("/login");
   }, [user, isLoading, navigate]);
 
   useEffect(() => {
+    // Load usernames incase they have changed
     if (user && usernames.length === 0) {
-      user.events.forEach((event) => {
+      // Remove any duplicates
+      const createdByArr = user.events.filter(
+        (event, index) =>
+          user.events.findIndex(
+            (e) => e.createdBy.uuid === event.createdBy.uuid
+          ) === index
+      );
+      createdByArr.forEach((event) => {
         getUsernameFromId(event.createdBy.uuid).then((res) => {
-          setUsernames(prev => {
+          setUsernames((prev) => {
             return [
               ...prev,
               {
                 username: res.data.username,
-                uuid: event.createdBy.uuid
-              }
-            ]
-          })
-          // console.log(res.data.username)
-        })
-        // getUsernameFromId()
-      })
+                uuid: event.createdBy.uuid,
+              },
+            ];
+          });
+        });
+      });
     }
-  }, [user, usernames])
+  }, [user, usernames]);
 
   if (!user) return;
 
   return (
     <RenderAuthPage>
-      <div
-        className="header"
-        style={{
-          padding: 50,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            height: 150,
-            width: 150,
-            // backgroundColor: "red",
-            borderRadius: "100%",
-            marginRight: 30,
-          }}
-          className="image"
-        >
+      <div className="header" style={style.dashboardHeader}>
+        <div style={style.dashboardImage} className="image">
           <Avatar
-            sx={{
-              height: 150,
-              width: 150,
-              borderRadius: "100%",
-            }}
+            sx={style.dashboardAvatar}
             src={
               !!user.profileImagePath
                 ? `/api/image/${user.profileImagePath}`
                 : "/images/default-user/jpg"
             }
           />
-          {/* <img
-            src={
-              !!user.profileImagePath
-                ? `/api/image/${user.profileImagePath}`
-                : "/images/default-user/jpg"
-            }
-            alt="profile"
-            style={{
-              height: 150,
-              width: 150,
-              display: "inline-block",
-              borderRadius: " 100%",
-            }}
-          /> */}
         </div>
         <div className="info">
           <h3 style={{ fontFamily: "Roboto" }}>{user.username}</h3>
           <h1 style={{ fontFamily: "Roboto" }}>Shared with me</h1>
         </div>
       </div>
-      <div style={{ width: "90%", display: "flex", justifyContent: "end" }}>
-        <button
-          onClick={() => setShowModal(true)}
-          className="button-dark"
-        >
+      <div style={style.dashboardButtonContainer}>
+        <button onClick={() => setShowModal(true)} className="button-dark">
           Create New
         </button>
       </div>
@@ -122,41 +121,21 @@ function Dashboard() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user.events.length === 0 && (
-                  <p
-                    style={{
-                      fontFamily: "Roboto",
-                      marginTop: 25,
-                      marginLeft: 10,
-                    }}
-                  >
-                    No Giveaways Created
-                  </p>
+                {user.events.length === 0 ? (
+                  <p style={style.dashboardTitle}>No Giveaways Created</p>
+                ) : (
+                  user.events.map((event, i) => {
+                    return (
+                      <DashboardRow
+                        user={user}
+                        key={i}
+                        index={i}
+                        event={event}
+                        usernames={usernames}
+                      />
+                    );
+                  })
                 )}
-                {user.events.map((event, i) => {
-                  return (
-                    <TableRow
-                      hover
-                      key={i}
-                      onClick={() => navigate(`/dashboard/${event.uuid}`)}
-                      role="checkbox"
-                      tabIndex={-1}
-                      sx={{
-                        cursor: "pointer",
-                        backgroundColor: i % 2 === 1 ? "" : "#eaeaea",
-                      }}
-                    >
-                      <TableCell>{event.companyName}</TableCell>
-                      <TableCell>{usernames.length > 0 ? usernames.find(u => u.uuid === user.id).username : "Loading..."}</TableCell>
-                      <TableCell>{formatDate(event.timeCreated)}</TableCell>
-                      <TableCell>
-                        {event.lastUpdated
-                          ? formatDate(event.lastUpdated)
-                          : formatDate(event.timeCreated)}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
               </TableBody>
             </Table>
           </TableContainer>
@@ -165,34 +144,6 @@ function Dashboard() {
       <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />
     </RenderAuthPage>
   );
-}
-
-function formatDate(date) {
-  date = new Date(date);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  // Get individual date components
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
-
-  // Create the formatted date
-  const formattedDate = `${month} ${day}, ${year}`;
-
-  return formattedDate;
 }
 
 export default Dashboard;

@@ -66,10 +66,16 @@ function CreateEvent({ open, handleClose }) {
               Giveaway Title
             </p>
             <input
-              style={{ marginTop: 10 }}
+              style={{
+                marginTop: 10,
+                padding: "5px 0",
+                borderRadius: "5px",
+                width: "100%",
+                fontSize: 12,
+              }}
               id="title"
               className="input-field"
-              placeholder="Add a description"
+              placeholder="Add a title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
