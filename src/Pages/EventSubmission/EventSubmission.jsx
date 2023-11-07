@@ -151,7 +151,7 @@ function EventSubmission() {
 
   const style = {
     background: event.enabled.image
-      ? `url(${APP_URI}/${event.imagePath}) no-repeat center center fixed`
+      ? `url(${APP_URI}/api/image/${event.imagePath}) no-repeat center center fixed`
       : "",
     backgroundSize: "cover",
   };
