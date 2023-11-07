@@ -11,7 +11,7 @@ import constants from "../../constants.json";
 
 function EventSubmission() {
   document.title = "Submit for Event";
-  const APP_URI = constants.PRODUCTION_API_URI;
+  const APP_URI = constants.PRODUCTION_APP_URI;
 
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);

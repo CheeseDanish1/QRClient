@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import { uploadImage } from "../../../utils/api";
 import constants from "../../../constants.json";
 
-const API_URI = constants.PRODUCTION_API_URI;
+const API_URI = constants.PRODUCTION_APP_URI;
 
 function Customization({
   color,
