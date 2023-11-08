@@ -63,7 +63,7 @@ function EventSubmission() {
       if (event.fields.name && !name)
         return setSubmissionError("Your name is required");
 
-      if (event.fields.phone && phone)
+      if (event.fields.phone && !phone)
         return setSubmissionError("Your phone number is required");
 
       if (event.fields.email && !email)
