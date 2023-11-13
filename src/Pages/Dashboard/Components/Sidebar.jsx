@@ -28,7 +28,7 @@ function Sidebar() {
             onClick={() => navigate("/transfer")}
           >
             <SendIcon style={{ marginRight: 15 }} />
-            <p>Transfer</p>
+            <p>Create</p>
           </div>
           <div
             className="sidebar-element"

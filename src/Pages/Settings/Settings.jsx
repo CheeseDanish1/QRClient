@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { General, Notifications, Security, Tab } from "./Components/";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
+import { General, Security, Tab } from "./Components/";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -22,12 +22,12 @@ const tabs = [
     icon: <LockIcon />,
     render: Security,
   },
-  {
-    name: "Notifications",
-    id: "notifications",
-    icon: <NotificationsIcon />,
-    render: Notifications,
-  },
+  // {
+  //   name: "Notifications",
+  //   id: "notifications",
+  //   icon: <NotificationsIcon />,
+  //   render: Notifications,
+  // },
 ];
 
 function Settings() {
