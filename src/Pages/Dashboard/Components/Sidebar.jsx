@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,10 @@ import SendIcon from "@mui/icons-material/Send";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import CreateEvent from '../../CreateEvent/CreateEvent'
 
 function Sidebar() {
+  const [showModal, setShowModal] = useState(false);
   const { signout } = useAuth();
   const navigate = useNavigate();
   return (
@@ -25,7 +27,7 @@ function Sidebar() {
           </div>
           <div
             className="sidebar-element"
-            onClick={() => navigate("/transfer")}
+            onClick={() => setShowModal(true)}
           >
             <SendIcon style={{ marginRight: 15 }} />
             <p>Create</p>
@@ -63,6 +65,7 @@ function Sidebar() {
           </div>
         </div>
       </div>
+      <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />
     </div>
 
     // <div className="Sidebar">
