@@ -189,6 +189,14 @@
   flex: 70%;
 }
 
+.input-modal {
+  margin-top: 10px;
+  padding: 5px 0;
+  border-radius: 5px;
+  width: 100% !important;
+  font-size: 12px;
+}
+
 .sidebar-element {
   margin-top: 10px;
   padding: 10px;
@@ -198,6 +206,19 @@
   flex-wrap: nowrap;
   align-items: center;
   transition: background-color 0.3s, transform 0.1s;
+}
+
+.analytic {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.analytic p {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .sidebar-element:hover {

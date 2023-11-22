@@ -78,7 +78,7 @@ function EventSubmission() {
       let realAge = new Date(age);
       finishSubmission({
         id: eventId,
-        formData: { name, email, phone, age: realAge },
+        formData: { promotion, name, email, phone, age: realAge },
       }).then((res) => {
         if (res.error) {
           return setSubmissionError(res.message);

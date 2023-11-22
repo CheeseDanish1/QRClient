@@ -21,6 +21,15 @@ export function updateUserGeneral(body) {
   });
 }
 
+export function sendAnalytics({ eventId, email }) {
+  return axios({
+    url: `${API_URI}/api/send-analytics`,
+    method: "POST",
+    data: { eventId, email },
+    withCredentials: true,
+  });
+}
+
 export function getUserById({ userId }) {
   return axios({
     url: `${API_URI}/api/user/${userId}`,

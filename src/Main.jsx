@@ -14,7 +14,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ManageEvent from "./Pages/ManageEvent/ManageEvent";
 import CreateEvent from "./Pages/CreateEvent/CreateEvent";
 import Settings from "./Pages/Settings/Settings";
-import Transfer from "./Pages/Transfer/Transfer";
 
 const router = createBrowserRouter([
   {
@@ -63,10 +62,6 @@ const router = createBrowserRouter([
     path: "/qrcode/:userId",
     element: <QrCode />,
   },
-  {
-    path: "/transfer",
-    element: <Transfer />
-  }
 ]);
 
 export default function Main() {
