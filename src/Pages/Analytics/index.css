@@ -1,0 +1,22 @@
+.analytics-header {
+  padding: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.analytics-image {
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  margin-right: 30px;
+}
+
+.roboto {
+  font-family: "Roboto";
+}
+
+.naming-is-hard {
+  margin-top: 25px;
+  margin-left: 10px;
+}
