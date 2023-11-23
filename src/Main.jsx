@@ -12,8 +12,8 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import ManageEvent from "./Pages/ManageEvent/ManageEvent";
-import CreateEvent from "./Pages/CreateEvent/CreateEvent";
 import Settings from "./Pages/Settings/Settings";
+import Analytics from "./Pages/Analytics/Analytics";
 
 const router = createBrowserRouter([
   {
@@ -38,8 +38,8 @@ const router = createBrowserRouter([
     element: <ManageEvent />,
   },
   {
-    path: "/dashboard/create",
-    element: <CreateEvent />,
+    path: "/analytics/:eventId",
+    element: <Analytics />,
   },
   {
     path: "/settings",

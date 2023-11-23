@@ -208,6 +208,13 @@
   transition: background-color 0.3s, transform 0.1s;
 }
 
+.bullet-point {
+  height: 7px;
+  width: 7px;
+  border-radius: 100%;
+  background-color: black;
+}
+
 .analytic {
   display: flex;
   align-items: center;

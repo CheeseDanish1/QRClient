@@ -12,6 +12,14 @@ export async function getUser() {
   });
 }
 
+export function getSubmissions({ eventId }) {
+  return axios({
+    url: `${API_URI}/api/submissions/${eventId}`,
+    method: "GET",
+    withCredentials: true,
+  });
+}
+
 export function updateUserGeneral(body) {
   return axios({
     url: `${API_URI}/api/user/general`,
