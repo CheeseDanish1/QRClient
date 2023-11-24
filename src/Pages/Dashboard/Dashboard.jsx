@@ -16,24 +16,8 @@ function Dashboard() {
 
   return (
     <RenderAuthPage>
-      <div
-        className="header"
-        style={{
-          padding: 50,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            height: 150,
-            width: 150,
-            borderRadius: "100%",
-            marginRight: 30,
-          }}
-          className="image"
-        >
+      <div className="dashboard-main header">
+        <div className="dashboard-image image">
           <Avatar
             sx={{
               height: 150,

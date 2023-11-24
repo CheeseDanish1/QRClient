@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Sidebar from "../Dashboard/Components/Sidebar";
+import Sidebar from "./Components/Sidebar";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 

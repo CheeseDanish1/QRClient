@@ -19,10 +19,16 @@ export function useSpinner() {
 }
 
 function useProvideSpinner() {
+  // Sidebar stuff doesn't belong here
+  // I just need information to persist beyond route rerenders
+  // This was laziest way
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return {
     loading,
     setLoading,
+    sidebarOpen,
+    setSidebarOpen,
   };
 }

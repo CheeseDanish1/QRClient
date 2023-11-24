@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSpinner } from "../../../hooks/useSpinner";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import HomeIcon from "@mui/icons-material/Home";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -9,7 +10,7 @@ import ExpandedSidebar from "./ExpandedSidebar";
 
 function SidebarTop() {
   const navigate = useNavigate();
-  const [expand, setExpand] = useState(false);
+  const { sidebarOpen, setSidebarOpen } = useSpinner();
 
   return (
     <div className="sidebar-body">
@@ -23,15 +24,15 @@ function SidebarTop() {
       </div>
       <div
         className="sidebar-element analytic"
-        onClick={() => setExpand((prev) => !prev)}
+        onClick={() => setSidebarOpen((prev) => !prev)}
       >
         <p>
           <TrendingUpIcon style={{ marginRight: 15 }} />
           Analytics
         </p>
-        {expand ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        {sidebarOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
       </div>
-      <div style={{ marginLeft: 20 }}>{expand && <ExpandedSidebar />}</div>
+      <div style={{ marginLeft: 20 }}>{sidebarOpen && <ExpandedSidebar />}</div>
     </div>
   );
 }

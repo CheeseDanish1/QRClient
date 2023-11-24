@@ -12,17 +12,14 @@ import {
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import "./index.css";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useAuth } from "../../hooks/useAuth";
 import { useParams } from "react-router-dom";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
+import { useSpinner } from "../../hooks/useSpinner";
 
 function ManageEvent() {
   const { eventId } = useParams();
 
-  const [loading, setLoading] = useState(true);
-  // const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
   const [startTime, setStartTime] = useState(null);
@@ -50,6 +47,7 @@ function ManageEvent() {
   const [saving, setSaving] = useState(false);
 
   const { updateUserEvent } = useAuth();
+  const { loading, setLoading } = useSpinner();
 
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
@@ -145,12 +143,12 @@ function ManageEvent() {
     });
   }
 
-  if (!event && loading) return <></>;
+  if (!event || loading) return <RenderAuthPage></RenderAuthPage>;
 
   return (
     <RenderAuthPage>
       <div style={{ display: "flex" }}>
-        {loading && <LoadingSpinner />}
+        {/* {loading && <LoadingSpinner />} */}
         <div className="manage-event-container">
           <Primary
             checkboxes={checkboxes}
@@ -204,17 +202,6 @@ function ManageEvent() {
         <ErrorSnackbar error={error} setError={setError} />
       </div>
     </RenderAuthPage>
-  );
-}
-
-function LoadingSpinner() {
-  return (
-    <Backdrop
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={true}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
   );
 }
 
