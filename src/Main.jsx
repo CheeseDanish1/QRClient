@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Scan from "./Pages/Scan";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Event from "./Pages/EventSubmission/EventSubmission";
@@ -8,6 +8,7 @@ import Redeem from "./Pages/Redeem";
 import Login from "./Pages/Authentication/Login";
 import Signup from "./Pages/Authentication/Signup";
 import { useAuth } from "./hooks/useAuth";
+import { useSpinner } from "./hooks/useSpinner";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -65,12 +66,14 @@ const router = createBrowserRouter([
 ]);
 
 export default function Main() {
-  const [spinner, setSpinner] = useState(false);
+  // const [spinner, setSpinner] = useState(false);
   const { isUser, isLoading } = useAuth();
 
+  const { loading, setLoading } = useSpinner();
+
   useEffect(() => {
-    setSpinner(!isLoading);
-  }, [isLoading]);
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
 
   useEffect(() => {
     isUser();
@@ -82,7 +85,7 @@ export default function Main() {
     <div className="App">
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={!spinner}
+        open={loading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

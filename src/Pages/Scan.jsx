@@ -99,12 +99,10 @@ function Scan() {
 
   useEffect(() => {
     if (results) {
-      console.log("Checking");
       setError("");
       approveSubmission({ userId: results })
         .then((res) => {
           if (res.error) {
-            console.log("Error: ", res.message);
             setError(res.message);
             setResults("");
             setSuccessMessage("");
