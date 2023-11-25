@@ -1,8 +1,8 @@
 import axios from "axios";
 // eslint-disable-next-line
-const { PRODUCTION_APP_URI, API_URI } = require("../constants.json");
+const { PRODUCTION_APP_URI } = require("../constants.json");
 
-// const API_URI = PRODUCTION_APP_URI;
+const API_URI = PRODUCTION_APP_URI;
 
 export async function getUser() {
   return axios({
