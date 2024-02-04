@@ -1,8 +1,8 @@
 import axios from "axios";
 // eslint-disable-next-line
-const { PRODUCTION_APP_URI } = require("../constants.json");
+const { PRODUCTION_APP_URI, API_URI } = require("../constants.json");
 
-const API_URI = PRODUCTION_APP_URI;
+// const API_URI = PRODUCTION_APP_URI;
 
 export async function getUser() {
   return axios({
@@ -31,17 +31,9 @@ export function updateUserGeneral(body) {
 
 export function sendAnalytics({ eventId, email }) {
   return axios({
-    url: `${API_URI}/api/send-analytics`,
+    url: `${API_URI}/api/event/analytics/send`,
     method: "POST",
     data: { eventId, email },
-    withCredentials: true,
-  });
-}
-
-export function getUserById({ userId }) {
-  return axios({
-    url: `${API_URI}/api/user/${userId}`,
-    method: "GET",
     withCredentials: true,
   });
 }
@@ -92,6 +84,15 @@ export async function login({ password, email }) {
     method: "POST",
     withCredentials: true,
     data: { password, email },
+  });
+}
+
+export async function sendTestEmail({ emailHTML, emailAddress }) {
+  return axios({
+    url: `${API_URI}/api/test/email`,
+    method: "POST",
+    withCredentials: true,
+    data: { emailHTML, emailAddress },
   });
 }
 
@@ -185,19 +186,6 @@ export async function verifyCaptcha({ token }) {
   return await data.json();
 }
 
-export async function getQrCode({ url }) {
-  let data = await fetch(`${API_URI}/api/qr`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    mode: "cors",
-    body: JSON.stringify({ url }),
-  });
-  return await data.json();
-}
-
 export async function getEvent({ id }) {
   let data = await fetch(`${API_URI}/api/event/${id}`, {
     method: "GET",
@@ -211,7 +199,7 @@ export async function getEvent({ id }) {
 }
 
 export async function finishSubmission({ id, formData }) {
-  let data = await fetch(`${API_URI}/api/event/submission/${id}`, {
+  let data = await fetch(`${API_URI}/api/submission/${id}/create`, {
     method: "POST",
     headers: {
       Accept: "application/json",

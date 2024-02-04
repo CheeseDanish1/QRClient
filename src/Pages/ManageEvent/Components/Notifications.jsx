@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import SendEmailModal from "../../../Components/SendEmailModal";
 
 function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   function updateEmailHTML(event) {
     setEmailHTML(event.target.value);
   }
@@ -22,7 +25,10 @@ function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
           }}
         >
           <p style={{ fontWeight: "bold" }}>Email HTML</p>
-          <button style={{ marginLeft: 270, marginRight: 20 }}>
+          <button
+            style={{ marginLeft: 270, marginRight: 20 }}
+            onClick={() => setShowEmailModal(true)}
+          >
             Send Test Email
           </button>
           <button>Revert Original Email</button>
@@ -54,6 +60,12 @@ function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
           style={{ marginTop: 10 }}
         />
       </div>
+
+      <SendEmailModal
+        open={showEmailModal}
+        emailHTML={emailHTML}
+        handleClose={() => setShowEmailModal(false)}
+      />
     </div>
   );
 }

@@ -24,7 +24,7 @@ function SubmissionTable({ submissions, event }) {
         </TableHead>
         <TableBody>
           {submissions.length === 0 ? (
-            <p className="roboto naming-is-hard">No Submissions Yet</p>
+            <p className="roboto naming-is-hard">No Submissions</p>
           ) : (
             submissions.map((submission, index) => {
               return (
