@@ -85,7 +85,7 @@ function EventSubmission() {
         }
 
         setSubmissionError("");
-        setSuccussMessage("Check your email or phone for the qr code");
+        setSuccussMessage("Check your email or phone for the QR code");
       });
     });
   };
