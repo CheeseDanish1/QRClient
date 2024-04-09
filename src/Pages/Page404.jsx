@@ -40,10 +40,18 @@ function Page404() {
           textAlign: "center",
           fontFamily: "'Roboto', sans-serif",
           fontSize: "12px",
+          marginTop: "10px",
         }}
       >
-        The Page you are looking for doesn't exist.<br />
-        <button onClick={() => navigate(-1)} className="button-dark">Go Back</button>
+        The Page you are looking for doesn't exist.
+        <br />
+        <button
+          style={{ marginTop: "5px" }}
+          onClick={() => navigate(-1)}
+          className="button-dark"
+        >
+          Go Back
+        </button>
       </p>
     </div>
   );
