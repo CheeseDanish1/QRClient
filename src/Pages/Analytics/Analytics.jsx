@@ -62,9 +62,10 @@ function Analytics() {
             display: "flex",
             justifyContent: "end",
           }}
-          onClick={() => setShowModal(true)}
         >
-          <button className="button-dark">Export Data</button>
+          <button onClick={() => setShowModal(true)} className="button-dark">
+            Export Data
+          </button>
         </div>
       )}
 

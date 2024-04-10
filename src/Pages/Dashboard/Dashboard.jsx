@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import EventTable from "./Components/EventTable";
 import Avatar from "@mui/material/Avatar";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   document.title = "Event Dashboard";
 
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, isLoading } = useAuth();
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !user) navigate("/login");
+  }, [user, isLoading, navigate]);
 
   if (!user) return;
 
