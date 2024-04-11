@@ -16,6 +16,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useParams } from "react-router-dom";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import { useSpinner } from "../../hooks/useSpinner";
+import AnalyticsModal from "../../Components/AnalyticsModal";
 
 function ManageEvent() {
   const { eventId } = useParams();
@@ -45,6 +46,8 @@ function ManageEvent() {
 
   const [event, setEvent] = useState(null);
   const [saving, setSaving] = useState(false);
+
+  const [showExportModal, setShowExportModal] = useState(false);
 
   const { updateUserEvent } = useAuth();
   const { loading, setLoading } = useSpinner();
@@ -173,7 +176,12 @@ function ManageEvent() {
             <div className="inner inner-four">
               {/* Toggle between make public and make private */}
               <button className="button-dark">Publish Giveaway</button>
-              <button className="button-dark">Share Analytics</button>
+              <button
+                className="button-dark"
+                onClick={() => setShowExportModal(true)}
+              >
+                Export Analytics
+              </button>
               <button className="button-sleek" onClick={save}>
                 Save Changes
               </button>
@@ -201,6 +209,11 @@ function ManageEvent() {
         <SuccessSnackbar saving={saving} handleClose={handleClose} />
         <ErrorSnackbar error={error} setError={setError} />
       </div>
+      <AnalyticsModal
+        eventId={event.uuid}
+        open={showExportModal}
+        handleClose={() => setShowExportModal(false)}
+      />
     </RenderAuthPage>
   );
 }

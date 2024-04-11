@@ -5,6 +5,8 @@ import Avatar from "@mui/material/Avatar";
 import { useAuth } from "../../../hooks/useAuth";
 import { uploadProfilePicture, updateUserGeneral } from "../../../utils/api";
 
+const API_URI = process.env.REACT_APP_API_URI;
+
 export function General({ setError, setSaving }) {
   // State
   const [firstName, setFirstName] = useState("");
@@ -95,7 +97,7 @@ export function General({ setError, setSaving }) {
           sx={{ width: 100, height: 100 }}
           src={
             !!user.profileImagePath
-              ? `/api/image/${user.profileImagePath}`
+              ? `${API_URI}/image/${user.profileImagePath}`
               : "/images/default-user.jpg"
           }
         />

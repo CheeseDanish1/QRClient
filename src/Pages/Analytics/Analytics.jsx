@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSubmissions } from "../../utils/api";
 import { useSpinner } from "../../hooks/useSpinner.jsx";
-import AnalyticsModal from "./Components/AnalyticsModal";
+import AnalyticsModal from "../../Components/AnalyticsModal";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import Avatar from "../../Components/Avatar";
 import SubmissionTable from "./Components/SubmissionTable";
 import "./index.css";
 
 // TODO: Add success message after import
+const API_URI = process.env.REACT_APP_API_URI;
 
 function Analytics() {
   document.title = "Analytics";
@@ -42,7 +43,7 @@ function Analytics() {
         <div className="analytics-image">
           {!!event.enabled.image ? (
             <Avatar
-              src={`/api/image/${event.imagePath}`}
+              src={`${API_URI}/image/${event.imagePath}`}
               fallback="/images/default-user/jpg"
             />
           ) : (

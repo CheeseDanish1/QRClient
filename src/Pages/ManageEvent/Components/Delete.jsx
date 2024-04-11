@@ -8,12 +8,14 @@ function Delete({ event, setError }) {
   const navigate = useNavigate();
 
   function removeEvent() {
-    deleteEvent({ eventUUID: event.uuid }).then((res) => {
-      if (res.data.error) return setError(res.data.message)
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      deleteEvent({ eventUUID: event.uuid }).then((res) => {
+        if (res.data.error) return setError(res.data.message);
 
-      removeUserEvent(event.uuid);
-      navigate("/dashboard"); 
-    });
+        removeUserEvent(event.uuid);
+        navigate("/dashboard");
+      });
+    }
   }
 
   return (

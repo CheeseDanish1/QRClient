@@ -7,6 +7,8 @@ import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 
+const API_URI = process.env.REACT_APP_API_URI;
+
 function Dashboard() {
   document.title = "Event Dashboard";
 
@@ -32,7 +34,7 @@ function Dashboard() {
             }}
             src={
               !!user.profileImagePath
-                ? `/api/image/${user.profileImagePath}`
+                ? `${API_URI}/image/${user.profileImagePath}`
                 : "/images/default-user/jpg"
             }
           />
