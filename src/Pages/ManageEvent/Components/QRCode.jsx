@@ -3,7 +3,7 @@ import QrCode from "../../../Components/QrCode";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const APP_URI = process.env.REACT_APP_API_URI;
+const APP_URI = process.env.REACT_APP_APP_URI;
 
 function QRCode({ eventUUID }) {
   const [saved, setSaved] = useState(false);
