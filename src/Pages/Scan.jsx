@@ -57,7 +57,8 @@ const errorModalStyles = {
   padding: "40px",
   borderRadius: "10px",
   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-  maxWidth: "300px",
+  maxWidth: "325px",
+  font: "Roboto",
   textAlign: "center",
 };
 
@@ -98,6 +99,10 @@ function Scan() {
   }, [scanner]);
 
   useEffect(() => {
+    // if (results) {
+    //   console.log("Results are: " + results);
+    //   setResults("");
+    // }
     if (results) {
       setError("");
       approveSubmission({ userId: results })
@@ -121,6 +126,7 @@ function Scan() {
   }, [results]);
 
   function resultsReceived(result) {
+    if (results) return;
     console.log(error, successMessage);
     if (!error && !successMessage) setResults(result.data);
   }
@@ -150,10 +156,12 @@ function Scan() {
 
   function closeErrorModal() {
     setError("");
+    setResults("");
   }
 
   function closeSuccessModal() {
     setSuccessMessage("");
+    setResults("");
   }
 
   return (
@@ -200,7 +208,9 @@ function Scan() {
 
         {error && (
           <div style={errorModalStyles}>
-            <div>{error}</div>
+            <div style={{ fontFamily: "Roboto", fontSize: "16px" }}>
+              {error}
+            </div>
             <button style={errorButtonStyles} onClick={closeErrorModal}>
               Close
             </button>

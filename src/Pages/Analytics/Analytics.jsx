@@ -4,7 +4,8 @@ import { getSubmissions } from "../../utils/api";
 import { useSpinner } from "../../hooks/useSpinner.jsx";
 import AnalyticsModal from "../../Components/AnalyticsModal";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
-import Avatar from "../../Components/Avatar";
+// import Avatar from "../../Components/Avatar";
+import Avatar from "@mui/material/Avatar";
 import SubmissionTable from "./Components/SubmissionTable";
 import "./index.css";
 
@@ -29,6 +30,7 @@ function Analytics() {
     getSubmissions({ eventId: eventId }).then((res) => {
       setLoading(false);
       if (!res.data.error) {
+        console.log(res.data.submissions);
         setSubmissions(res.data.submissions);
         setEvent(res.data.event);
       }
@@ -41,14 +43,23 @@ function Analytics() {
     <RenderAuthPage>
       <div className="analytics-header">
         <div className="analytics-image">
-          {!!event.enabled.image ? (
+          {/* {!!event.enabled.image ? (
             <Avatar
               src={`${API_URI}/image/${event.imagePath}`}
-              fallback="/images/default-user/jpg"
+              fallback="/images/default-user.jpg"
             />
           ) : (
-            <Avatar src="/images/default-user/jpg" />
-          )}
+            <Avatar src="/images/default-user.jpg" />
+          )} */}
+
+          <Avatar
+            sx={{
+              height: 150,
+              width: 150,
+              borderRadius: "100%",
+            }}
+            src={`${API_URI}/image/${event.imagePath}`}
+          />
         </div>
         <div className="info">
           <h3 className="roboto">{event.companyName}</h3>

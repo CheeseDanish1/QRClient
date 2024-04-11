@@ -32,11 +32,7 @@ function Dashboard() {
               width: 150,
               borderRadius: "100%",
             }}
-            src={
-              !!user.profileImagePath
-                ? `${API_URI}/image/${user.profileImagePath}`
-                : "/images/default-user/jpg"
-            }
+            src={`${API_URI}/image/${user.profileImagePath}`}
           />
         </div>
         <div className="info">

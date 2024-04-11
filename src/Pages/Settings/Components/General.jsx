@@ -95,11 +95,7 @@ export function General({ setError, setSaving }) {
       >
         <Avatar
           sx={{ width: 100, height: 100 }}
-          src={
-            !!user.profileImagePath
-              ? `${API_URI}/image/${user.profileImagePath}`
-              : "/images/default-user.jpg"
-          }
+          src={`${API_URI}/image/${user.profileImagePath}`}
         />
       </Badge>
       <div className="settings-inputs">

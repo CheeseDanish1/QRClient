@@ -75,6 +75,7 @@ function EventSubmission() {
       }
 
       let realAge = new Date(age);
+
       finishSubmission({
         id: eventId,
         formData: { promotion, name, email, phone, age: realAge },
@@ -84,7 +85,12 @@ function EventSubmission() {
         }
 
         setSubmissionError("");
-        setSuccussMessage("Check your email or phone for the QR code");
+        // Change the message based off what they need to check
+        setSuccussMessage(
+          `Check your ${event.fields.email ? "email" : ""} ${
+            event.fields.email && event.fields.phone ? "or" : ""
+          }  ${event.fields.phone ? "phone" : ""} for the QR code`
+        );
       });
     });
   };
@@ -141,7 +147,7 @@ function EventSubmission() {
     {
       title: "Birthday",
       type: "date",
-      name: "phone",
+      name: "age",
       value: age,
       setValue: setAge,
       enabled: event.fields.age,
@@ -216,9 +222,13 @@ function EventSubmission() {
         {(succussMessage || submissionError) && (
           <div className="messages" style={{ marginTop: 10 }}>
             {succussMessage ? (
-              <p style={{ color: "green" }}>{succussMessage}</p>
+              <p style={{ color: "green", fontFamily: "Roboto" }}>
+                {succussMessage}
+              </p>
             ) : (
-              <p style={{ color: "red" }}>{submissionError}</p>
+              <p style={{ color: "red", fontFamily: "Roboto" }}>
+                {submissionError}
+              </p>
             )}
           </div>
         )}

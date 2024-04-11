@@ -63,6 +63,13 @@ function formateDate2(date) {
 }
 
 function formatDate(date) {
+  // For some reason the date ends with z
+  // This causes dates to be the day before
+  // This is removed
+  let splitDate = date.split("");
+  splitDate.pop();
+  date = splitDate.join("");
+
   date = new Date(date);
   const months = [
     "January",

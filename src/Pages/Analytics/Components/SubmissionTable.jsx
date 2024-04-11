@@ -13,7 +13,7 @@ function SubmissionTable({ submissions, event }) {
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            {event.fields.age && <TableCell>Name</TableCell>}
+            {event.fields.name && <TableCell>Name</TableCell>}
             {event.fields.email && <TableCell>Email</TableCell>}
             {event.fields.phone && <TableCell>Phone</TableCell>}
             {event.fields.age && <TableCell>Birthday</TableCell>}
