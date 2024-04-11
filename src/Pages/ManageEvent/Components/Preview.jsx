@@ -1,8 +1,7 @@
 import React from "react";
-import constants from "../../../constants.json";
 
 function Preview({ event }) {
-  const APP = constants.PRODUCTION_APP_URI;
+  const APP = process.env.REACT_APP_APP_URI;
 
   // For now just go to page
   function previewPage() {

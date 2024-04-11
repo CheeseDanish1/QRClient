@@ -5,13 +5,12 @@ import ReCaptcha from "react-google-recaptcha";
 import Event404 from "../../Components/Event404";
 import EventNotStarted from "./Components/EventNotStarted";
 import EventEnded from "./Components/EventEnded";
-import constants from "../../constants.json";
 
 // Todo: Event Backgrounds
 
 function EventSubmission() {
   document.title = "Submit for Event";
-  const APP_URI = constants.PRODUCTION_APP_URI;
+  const API_URI = process.env.REACT_APP_API_URI;
 
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);
@@ -151,7 +150,7 @@ function EventSubmission() {
 
   const style = {
     background: event.enabled.image
-      ? `url(${APP_URI}/api/image/${event.imagePath}) no-repeat center center fixed`
+      ? `url(${API_URI}/image/${event.imagePath}) no-repeat center center fixed`
       : "",
     backgroundSize: "cover",
   };

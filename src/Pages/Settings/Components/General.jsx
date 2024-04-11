@@ -96,7 +96,7 @@ export function General({ setError, setSaving }) {
           src={
             !!user.profileImagePath
               ? `/api/image/${user.profileImagePath}`
-              : "/images/default-user/jpg"
+              : "/images/default-user.jpg"
           }
         />
       </Badge>

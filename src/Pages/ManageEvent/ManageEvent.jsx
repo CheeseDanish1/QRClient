@@ -83,11 +83,11 @@ function ManageEvent() {
       if (document.querySelector(".content-container"))
         document.querySelector(".content-container").scrollTo(0, 0);
     });
-  }, [eventId]);
+  }, [eventId, setLoading]);
 
   useEffect(() => {
     setLoading(true);
-  }, [eventId]);
+  }, [eventId, setLoading]);
 
   function formatDateToISOString(date) {
     const year = date.getFullYear();
