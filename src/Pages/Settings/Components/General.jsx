@@ -93,10 +93,27 @@ export function General({ setError, setSaving }) {
         onClick={openFile}
         onChange={imageUpload}
       >
-        <Avatar
-          sx={{ width: 100, height: 100 }}
-          src={`${API_URI}/image/${user.profileImagePath}`}
-        />
+        {!!user.profileImagePath ? (
+          <Avatar
+            sx={{ height: 100, width: 100, borderRadius: "100%" }}
+            src={`${API_URI}/image/${user.profileImagePath}`}
+          >
+            <img
+              src="/images/default-user.jpg"
+              style={{
+                height: "100px",
+                width: "100px",
+                borderRadius: "100%",
+              }}
+              alt="profile"
+            />
+          </Avatar>
+        ) : (
+          <Avatar
+            sx={{ height: 100, width: 100, borderRadius: "100%" }}
+            src="/images/default-user.jpg"
+          />
+        )}
       </Badge>
       <div className="settings-inputs">
         <div className="settings-first">

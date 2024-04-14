@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import DashboardRow from "./DashboardRow";
 import { getUsernameFromId } from "../../../utils/api";
 
-function EventTable({ user }) {
+function EventTable({ user, archived }) {
   const [usernames, setUsernames] = useState([]);
 
   useEffect(() => {
@@ -49,7 +49,8 @@ function EventTable({ user }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {user.events.length === 0 ? (
+          {user.events.filter((event) => event.archived === archived).length ===
+          0 ? (
             <p
               style={{
                 fontFamily: "Roboto",
@@ -57,20 +58,22 @@ function EventTable({ user }) {
                 marginLeft: 10,
               }}
             >
-              No Giveaways Created
+              No Events {archived ? "Archived" : "Active"}
             </p>
           ) : (
-            user.events.map((event, i) => {
-              return (
-                <DashboardRow
-                  user={user}
-                  key={i}
-                  index={i}
-                  event={event}
-                  usernames={usernames}
-                />
-              );
-            })
+            user.events
+              .filter((event) => event.archived === archived)
+              .map((event, i) => {
+                return (
+                  <DashboardRow
+                    user={user}
+                    key={i}
+                    index={i}
+                    event={event}
+                    usernames={usernames}
+                  />
+                );
+              })
           )}
         </TableBody>
       </Table>

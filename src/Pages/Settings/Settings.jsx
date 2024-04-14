@@ -31,12 +31,14 @@ const tabs = [
 ];
 
 function Settings() {
+  document.title = "Settings — Vending Promotions";
+
   const [settingsTab, setSettingsTab] = useState("info");
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
   function handleClose() {
-    setSaving(false)
+    setSaving(false);
   }
 
   return (
@@ -57,7 +59,11 @@ function Settings() {
             );
           })}
         </div>
-        <RenderSettings setSaving={setSaving} setError={setError} state={settingsTab} />
+        <RenderSettings
+          setSaving={setSaving}
+          setError={setError}
+          state={settingsTab}
+        />
       </div>
       <SuccessSnackbar saving={saving} handleClose={handleClose} />
       <ErrorSnackbar error={error} setError={setError} />
@@ -114,6 +120,5 @@ function RenderSettings({ state, setError, setSaving }) {
 
   return <Component setSaving={setSaving} setError={setError} />;
 }
-
 
 export default Settings;

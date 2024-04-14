@@ -19,6 +19,7 @@ import { useSpinner } from "../../hooks/useSpinner";
 import AnalyticsModal from "../../Components/AnalyticsModal";
 
 function ManageEvent() {
+  document.title = "Manage Event — Vending Promotions";
   const { eventId } = useParams();
 
   const [error, setError] = useState(null);

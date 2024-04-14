@@ -4,6 +4,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  document.title = "Login — Vending Promotions";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

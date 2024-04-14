@@ -8,7 +8,8 @@ function Sidebar() {
     <div className="sidebar-container">
       <div style={{ padding: 30 }}>
         <div style={{ height: 30, fontFamily: "Verdana  " }} className="head">
-          <h2 style={{ color: "#030301" }}>GiveAway</h2>
+          <h2 style={{ color: "#030301" }}>Vending</h2>
+          <h2 style={{ color: "#030301" }}>Promotions</h2>
         </div>
 
         <SidebarTop />

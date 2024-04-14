@@ -4,6 +4,7 @@ import QRCode from "qrcode";
 import { useParams } from "react-router-dom";
 
 function QrCode({ linkTo }) {
+  document.title = "QR Code — Vending Promotions";
   const [imageLoading, setImageLoading] = useState(true);
   const [base64Image, setBase64Image] = useState(null);
 

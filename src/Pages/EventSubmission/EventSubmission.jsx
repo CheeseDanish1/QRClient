@@ -9,7 +9,7 @@ import EventEnded from "./Components/EventEnded";
 // Todo: Event Backgrounds
 
 function EventSubmission() {
-  document.title = "Submit for Event";
+  document.title = "Submit — Vending Promotions";
   const API_URI = process.env.REACT_APP_API_URI;
 
   const [loading, setLoading] = useState(true);
@@ -30,10 +30,11 @@ function EventSubmission() {
 
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
+      setLoading(false);
+
       if (res.error) {
         setEvent(null);
         setEventError(res.message);
-        setLoading(false);
         return;
       }
 
@@ -113,6 +114,10 @@ function EventSubmission() {
     if (endDate.getTime() < Date.now()) {
       return <EventEnded />;
     }
+  }
+
+  if (event.archived === true) {
+    return <p>This event has been archived</p>;
   }
 
   if (event.maxCapacity && event.currentCapacity >= event.maxCapacity) {

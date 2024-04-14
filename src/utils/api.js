@@ -53,6 +53,24 @@ export async function deleteEvent({ eventUUID }) {
   });
 }
 
+export async function archiveEvent({ eventId }) {
+  return axios({
+    url: `${API_URI}/event/archive`,
+    method: "POST",
+    withCredentials: true,
+    data: { eventId },
+  });
+}
+
+export async function unarchiveEvent({ eventId }) {
+  return axios({
+    url: `${API_URI}/event/unarchive`,
+    method: "POST",
+    withCredentials: true,
+    data: { eventId },
+  });
+}
+
 export async function updateCookie() {
   return axios({
     url: `${API_URI}/auth/local/cookie`,

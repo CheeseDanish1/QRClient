@@ -1,16 +1,18 @@
+// Basically the same thing as regular dashboard, except shows archived events only
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import EventTable from "./Components/EventTable";
+import EventTable from "../Dashboard/Components/EventTable";
 import Avatar from "@mui/material/Avatar";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
-import "./index.css";
+import "../Dashboard/index.css";
 import { useNavigate } from "react-router-dom";
 
 const API_URI = process.env.REACT_APP_API_URI;
 
 function Dashboard() {
-  document.title = "Event Dashboard — Vending Promotions";
+  document.title = "Archived Dashboard — Vending Promotions";
 
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
@@ -59,7 +61,7 @@ function Dashboard() {
         </div>
         <div className="info">
           <h3 style={{ fontFamily: "Roboto" }}>{user.username}</h3>
-          <h1 style={{ fontFamily: "Roboto" }}>Active Events</h1>
+          <h1 style={{ fontFamily: "Roboto" }}>Archived Events</h1>
         </div>
       </div>
       <div
@@ -75,7 +77,7 @@ function Dashboard() {
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%" }}>
-          <EventTable user={user} archived={false} />
+          <EventTable user={user} archived={true} />
         </div>
       </div>
       <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Page404() {
-  document.title = "Error: 404";
+  document.title = "Page not found — Vending Promotions";
 
   let navigate = useNavigate();
 

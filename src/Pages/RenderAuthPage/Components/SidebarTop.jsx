@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSpinner } from "../../../hooks/useSpinner";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import HomeIcon from "@mui/icons-material/Home";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -20,7 +21,11 @@ function SidebarTop() {
       </div>
       <div className="sidebar-element" onClick={() => navigate("/dashboard")}>
         <EventNoteIcon style={{ marginRight: 15 }} />
-        <p>Manage Giveaways</p>
+        <p>Active Events</p>
+      </div>
+      <div className="sidebar-element" onClick={() => navigate("/archive")}>
+        <InventoryIcon style={{ marginRight: 15 }} />
+        <p>Archive</p>
       </div>
       <div
         className="sidebar-element analytic"
@@ -32,7 +37,18 @@ function SidebarTop() {
         </p>
         {sidebarOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
       </div>
-      <div style={{ marginLeft: 20 }}>{sidebarOpen && <ExpandedSidebar />}</div>
+      <div
+        style={{
+          marginLeft: 20,
+          overflowX: "hidden",
+          overflowY: "auto",
+          maxHeight: `${
+            window.innerHeight - 128 - 44 * 4 - 29 - 29 - 30 - 30
+          }px`,
+        }}
+      >
+        {sidebarOpen && <ExpandedSidebar />}
+      </div>
     </div>
   );
 }

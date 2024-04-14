@@ -66,7 +66,7 @@ const styles = {
 };
 
 const Redeem = () => {
-  document.title = "Redeem code";
+  document.title = "Redeem Code — Vending Promotions";
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);

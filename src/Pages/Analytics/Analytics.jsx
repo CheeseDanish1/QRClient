@@ -4,7 +4,6 @@ import { getSubmissions } from "../../utils/api";
 import { useSpinner } from "../../hooks/useSpinner.jsx";
 import AnalyticsModal from "../../Components/AnalyticsModal";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
-// import Avatar from "../../Components/Avatar";
 import Avatar from "@mui/material/Avatar";
 import SubmissionTable from "./Components/SubmissionTable";
 import "./index.css";
@@ -13,7 +12,7 @@ import "./index.css";
 const API_URI = process.env.REACT_APP_API_URI;
 
 function Analytics() {
-  document.title = "Analytics";
+  document.title = "Analytics — Vending Promotions";
 
   const [showModal, setShowModal] = useState(false);
   const [submissions, setSubmissions] = useState(null);
@@ -43,23 +42,36 @@ function Analytics() {
     <RenderAuthPage>
       <div className="analytics-header">
         <div className="analytics-image">
-          {/* {!!event.enabled.image ? (
+          {!!event.enabled.image ? (
             <Avatar
+              sx={{ height: 150, width: 150, borderRadius: "100%" }}
               src={`${API_URI}/image/${event.imagePath}`}
-              fallback="/images/default-user.jpg"
-            />
+            >
+              <img
+                style={{
+                  height: "150px",
+                  widows: "150px",
+                  borderRadius: "100%",
+                }}
+                src="/images/default-user.jpg"
+                alt="event background"
+              />
+            </Avatar>
           ) : (
-            <Avatar src="/images/default-user.jpg" />
-          )} */}
+            <Avatar
+              sx={{ height: 150, width: 150, borderRadius: "100%" }}
+              src="/images/default-user.jpg"
+            />
+          )}
 
-          <Avatar
+          {/* <Avatar
             sx={{
               height: 150,
               width: 150,
               borderRadius: "100%",
             }}
             src={`${API_URI}/image/${event.imagePath}`}
-          />
+          /> */}
         </div>
         <div className="info">
           <h3 className="roboto">{event.companyName}</h3>

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 const Signup = () => {
+  document.title = "Signup — Vending Promotions";
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

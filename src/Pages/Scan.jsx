@@ -81,7 +81,7 @@ const checkmarkStyles = {
 };
 
 function Scan() {
-  document.title = "Scan";
+  document.title = "Scan Codes — Vending Promotions";
   const videoRef = useRef(null);
   const [scanner, setScanner] = useState(null);
   const [results, setResults] = useState("");

@@ -15,6 +15,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ManageEvent from "./Pages/ManageEvent/ManageEvent";
 import Settings from "./Pages/Settings/Settings";
 import Analytics from "./Pages/Analytics/Analytics";
+import Archived from "./Pages/Archived/ArchivedDashboard";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/archive",
+    element: <Archived />,
   },
   {
     path: "/dashboard/:eventId",

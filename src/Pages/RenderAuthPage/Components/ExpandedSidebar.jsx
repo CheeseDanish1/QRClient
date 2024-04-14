@@ -8,18 +8,20 @@ function ExpandedSidebar() {
 
   return (
     <ul style={{ listStyleType: "circle" }}>
-      {user.events.map((event, i) => {
-        return (
-          <li
-            key={i}
-            onClick={() => navigate(`/analytics/${event.uuid}`)}
-            className="sidebar-element"
-          >
-            <div className="bullet-point" />
-            <span style={{ marginLeft: "10px" }}>{event.companyName}</span>
-          </li>
-        );
-      })}
+      {user.events
+        .filter((event) => event.archived === false)
+        .map((event, i) => {
+          return (
+            <li
+              key={i}
+              onClick={() => navigate(`/analytics/${event.uuid}`)}
+              className="sidebar-element"
+            >
+              <div className="bullet-point" />
+              <span style={{ marginLeft: "10px" }}>{event.companyName}</span>
+            </li>
+          );
+        })}
     </ul>
   );
 }
