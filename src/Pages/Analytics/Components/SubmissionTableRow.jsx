@@ -17,7 +17,7 @@ function SubmissionTableRow({ submission, event, index }) {
       {event.fields.email && <TableCell>{submission.fields.email}</TableCell>}
       {event.fields.phone && <TableCell>{submission.fields.phone}</TableCell>}
       {event.fields.age && (
-        <TableCell>{formatDate(submission.fields.age)}</TableCell>
+        <TableCell>{!!submission.fields.age ? formatDate(submission.fields.age) : ""}</TableCell>
       )}
       <TableCell>{formateDate2(submission.timeSubmitted)}</TableCell>
       <TableCell>
