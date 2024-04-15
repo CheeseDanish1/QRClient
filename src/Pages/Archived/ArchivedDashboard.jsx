@@ -1,10 +1,9 @@
 // Basically the same thing as regular dashboard, except shows archived events only
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import EventTable from "../Dashboard/Components/EventTable";
 import Avatar from "@mui/material/Avatar";
-import CreateEvent from "../CreateEvent/CreateEvent";
 import RenderAuthPage from "../RenderAuthPage/RenderAuthPage";
 import "../Dashboard/index.css";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ function Dashboard() {
 
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !user) navigate("/login");
@@ -28,15 +26,6 @@ function Dashboard() {
     <RenderAuthPage>
       <div className="dashboard-main header">
         <div className="dashboard-image image">
-          {/* <Avatar
-            sx={{
-              height: 150,
-              width: 150,
-              borderRadius: "100%",
-            }}
-            src={`${API_URI}/image/${user.profileImagePath}`}
-          /> */}
-
           {!!user.profileImagePath ? (
             <Avatar
               sx={{ height: 150, width: 150, borderRadius: "100%" }}
@@ -70,17 +59,12 @@ function Dashboard() {
           display: "flex",
           justifyContent: "end",
         }}
-      >
-        <button onClick={() => setShowModal(true)} className="button-dark">
-          Create New
-        </button>
-      </div>
+      ></div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%" }}>
           <EventTable user={user} archived={true} />
         </div>
       </div>
-      <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />
     </RenderAuthPage>
   );
 }
