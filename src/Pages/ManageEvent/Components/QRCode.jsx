@@ -52,7 +52,7 @@ function CopySnackbar({ saving, handleClose }) {
         severity="success"
         sx={{ width: "100%" }}
       >
-        Image copied to clipboard
+        Image link copied to clipboard
       </MuiAlert>
     </Snackbar>
   );

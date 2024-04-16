@@ -8,7 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import DashboardRow from "./DashboardRow";
 import { getUsernameFromId } from "../../../utils/api";
 
-function EventTable({ user, archived }) {
+// setShowModal is the create event modal
+// It is passed in so we can suggest to create an event when no are made
+function EventTable({ user, archived, setShowModal }) {
   const [usernames, setUsernames] = useState([]);
 
   useEffect(() => {
@@ -51,15 +53,11 @@ function EventTable({ user, archived }) {
         <TableBody>
           {user.events.filter((event) => event.archived === archived).length ===
           0 ? (
-            <p
-              style={{
-                fontFamily: "Roboto",
-                marginTop: 25,
-                marginLeft: 10,
-              }}
-            >
-              No Events {archived ? "Archived" : "Active"}
-            </p>
+            archived ? (
+              <ArchivedMessage />
+            ) : (
+              <ActiveMessage setShowModal={setShowModal} />
+            )
           ) : (
             user.events
               .filter((event) => event.archived === archived)
@@ -78,6 +76,45 @@ function EventTable({ user, archived }) {
         </TableBody>
       </Table>
     </TableContainer>
+  );
+}
+
+function ActiveMessage({ setShowModal }) {
+  return (
+    <h3
+      style={{
+        fontFamily: "Roboto",
+        marginTop: 25,
+        marginLeft: 10,
+      }}
+    >
+      You do not have any active events. Try{" "}
+      <span
+        onClick={() => setShowModal(true)}
+        style={{
+          color: "#0077ff",
+          cursor: "pointer",
+          textDecoration: "underline",
+        }}
+      >
+        creating one
+      </span>{" "}
+      today!
+    </h3>
+  );
+}
+
+function ArchivedMessage() {
+  return (
+    <h3
+      style={{
+        fontFamily: "Roboto",
+        marginTop: 25,
+        marginLeft: 10,
+      }}
+    >
+      You do not have any events archived.
+    </h3>
   );
 }
 

@@ -5,7 +5,7 @@ function EventNotStarted({ startDate }) {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "90%" }}>
-        <h1 style={{ color: "red", textAlign: "center" }}>
+        <h1 style={{ color: "red", textAlign: "center", fontFamily: "Roboto" }}>
           This event hasn't started yet
         </h1>
         <div

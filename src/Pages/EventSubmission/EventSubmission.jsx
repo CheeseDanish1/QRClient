@@ -9,7 +9,7 @@ import EventEnded from "./Components/EventEnded";
 // Todo: Event Backgrounds
 
 function EventSubmission() {
-  document.title = "Submit — Vending Promotions";
+  document.title = "Create Submission — Vending Promotions";
   const API_URI = process.env.REACT_APP_API_URI;
 
   const [loading, setLoading] = useState(true);

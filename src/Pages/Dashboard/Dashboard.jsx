@@ -26,15 +26,6 @@ function Dashboard() {
     <RenderAuthPage>
       <div className="dashboard-main header">
         <div className="dashboard-image image">
-          {/* <Avatar
-            sx={{
-              height: 150,
-              width: 150,
-              borderRadius: "100%",
-            }}
-            src={`${API_URI}/image/${user.profileImagePath}`}
-          /> */}
-
           {!!user.profileImagePath ? (
             <Avatar
               sx={{ height: 150, width: 150, borderRadius: "100%" }}
@@ -75,7 +66,11 @@ function Dashboard() {
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%" }}>
-          <EventTable user={user} archived={false} />
+          <EventTable
+            setShowModal={setShowModal}
+            user={user}
+            archived={false}
+          />
         </div>
       </div>
       <CreateEvent handleClose={() => setShowModal(false)} open={showModal} />
