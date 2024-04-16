@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { sendTestEmail } from "../utils/api";
+import { sendTestMessage } from "../utils/api";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -16,14 +16,14 @@ const style = {
   p: 4,
 };
 
-function AnalyticsModal({ open, handleClose, emailHTML }) {
-  const [email, setEmail] = useState("");
+function SendPhoneModal({ open, handleClose, messageContent }) {
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
 
   const { user } = useAuth();
 
   useEffect(() => {
-    setEmail(user.email);
+    setPhone(user.phoneNumber);
   }, [user]);
 
   useEffect(() => {
@@ -31,11 +31,11 @@ function AnalyticsModal({ open, handleClose, emailHTML }) {
   }, [open]);
 
   function onSubmit() {
-    if (!email) setError("Must include email");
+    if (!phone) setError("Must include email");
 
-    sendTestEmail({
-      emailAddress: email,
-      emailHTML,
+    sendTestMessage({
+      messageContent,
+      number: phone,
     }).then((res) => {
       if (res.data.error) setError(res.data.message);
 
@@ -54,18 +54,19 @@ function AnalyticsModal({ open, handleClose, emailHTML }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Test Email Format
+            Send a Test Phone Message
           </Typography>
           <div className="description" style={{ marginTop: 20 }}>
             <p style={{ fontWeight: "bold", fontFamily: "Roboto" }}>
-              Email Address
+              Phone Number
             </p>
             <input
               id="title"
               className="input-field input-modal"
-              // placeholder="Add a title"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              //   placeholder="Add a title"
+              value={phone}
+              type="tel"
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           {error && (
@@ -87,4 +88,4 @@ function AnalyticsModal({ open, handleClose, emailHTML }) {
   );
 }
 
-export default AnalyticsModal;
+export default SendPhoneModal;

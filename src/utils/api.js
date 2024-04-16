@@ -95,8 +95,6 @@ export async function getUsernameFromId(id) {
 }
 
 export async function login({ password, email }) {
-  console.log("Test");
-  console.log(API_URI);
   return axios({
     url: `${API_URI}/auth/local/login`,
     method: "POST",
@@ -111,6 +109,15 @@ export async function sendTestEmail({ emailHTML, emailAddress }) {
     method: "POST",
     withCredentials: true,
     data: { emailHTML, emailAddress },
+  });
+}
+
+export async function sendTestMessage({ messageContent, number }) {
+  return axios({
+    url: `${API_URI}/test/phone`,
+    method: "POST",
+    withCredentials: true,
+    data: { messageContent, number },
   });
 }
 

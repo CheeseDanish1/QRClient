@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import SendEmailModal from "../../../Components/SendEmailModal";
+import SendPhoneModal from "../../../Components/SendPhoneModal";
+import constants from "../../../constants.json";
 
 function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
+  const { defaultEmail, defaultPhoneMessage } = constants;
+
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   function updateEmailHTML(event) {
     setEmailHTML(event.target.value);
@@ -31,7 +36,9 @@ function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
           >
             Send Test Email
           </button>
-          <button>Revert Original Email</button>
+          <button onClick={() => setEmailHTML(defaultEmail)}>
+            Revert Default Email
+          </button>
         </div>
         <textarea
           onChange={updateEmailHTML}
@@ -48,10 +55,15 @@ function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
           }}
         >
           <p style={{ fontWeight: "bold" }}>Phone Message</p>
-          <button style={{ marginLeft: 200, marginRight: 20 }}>
+          <button
+            style={{ marginLeft: 200, marginRight: 20 }}
+            onClick={() => setShowPhoneModal(true)}
+          >
             Send Test Message
           </button>
-          <button>Revert Original Message</button>
+          <button onClick={() => setPhoneText(defaultPhoneMessage)}>
+            Revert Default Message
+          </button>
         </div>
         <textarea
           onChange={updatePhoneText}
@@ -65,6 +77,11 @@ function Notifications({ emailHTML, phoneText, setEmailHTML, setPhoneText }) {
         open={showEmailModal}
         emailHTML={emailHTML}
         handleClose={() => setShowEmailModal(false)}
+      />
+      <SendPhoneModal
+        open={showPhoneModal}
+        handleClose={() => setShowPhoneModal(false)}
+        messageContent={phoneText}
       />
     </div>
   );

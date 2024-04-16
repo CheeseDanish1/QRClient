@@ -103,7 +103,9 @@ function Scan() {
     //   console.log("Results are: " + results);
     //   setResults("");
     // }
-    if (results) {
+
+    // I am trying to make it where it only scans an error once.
+    if (results && !error) {
       setError("");
       approveSubmission({ userId: results })
         .then((res) => {
@@ -127,7 +129,6 @@ function Scan() {
 
   function resultsReceived(result) {
     if (results) return;
-    console.log(error, successMessage);
     if (!error && !successMessage) setResults(result.data);
   }
 

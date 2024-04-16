@@ -1,5 +1,4 @@
 {
-  "API_URI": "http://localhost:3001",
-  "APP_URI": "http://localhost:3000",
-  "PRODUCTION_APP_URI": "https://qrapp-s4hr.onrender.com"
+  "defaultEmail": "<style>\n  .container {\n    max-width: 600px;\n    margin: 0 auto;\n    padding: 20px;\n    background-color: #fff;\n    border-radius: 8px;\n    box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n  }\n  .content {\n    text-align: center;\n  }\n</style>\n<div class='container'>\n<div class='content'>\n    <h1>Redeem Your Free Giveaway!</h1>\n    <p>Congratulations! You are now eligible to redeem your free gift.</p>\n  </div>\n</div>\n  ",
+  "defaultPhoneMessage": "Get your QR code scanned to redeem your free gift!"
 }
