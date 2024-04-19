@@ -23,7 +23,7 @@ function EventSubmission() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [bagSize, setBagSize] = useState("s");
+  const [bagSize, setBagSize] = useState("Small");
   const [backgroundLoading, setBackgroundLoading] = useState(true);
 
   const captchaRef = useRef(null);
@@ -125,7 +125,8 @@ function EventSubmission() {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading || backgroundLoading)
+    return <p style={{ textAlign: "center" }}>This event is loading</p>;
 
   if (!event) return <Event404 />;
 
