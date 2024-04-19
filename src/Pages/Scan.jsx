@@ -29,6 +29,9 @@ const successModalStyles = {
   padding: "40px",
   borderRadius: "10px",
   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+  maxWidth: "325px",
+  font: "Roboto",
+  textAlign: "center",
 };
 
 const succussButtonStyles = {
@@ -99,12 +102,7 @@ function Scan() {
   }, [scanner]);
 
   useEffect(() => {
-    // if (results) {
-    //   console.log("Results are: " + results);
-    //   setResults("");
-    // }
-
-    // I am trying to make it where it only scans an error once.
+    // Scan an error once.
     if (results && !error) {
       setError("");
       approveSubmission({ userId: results })
@@ -125,7 +123,7 @@ function Scan() {
           setResults("");
         });
     }
-  }, [results]);
+  }, [results, error]);
 
   function resultsReceived(result) {
     if (results) return;
@@ -221,11 +219,21 @@ function Scan() {
         {successMessage && (
           <div style={successModalStyles}>
             <div style={checkmarkStyles}>&#10004;</div>
-            <div>{successMessage}</div>
+            <div style={{ fontFamily: "Roboto", fontSize: "16px" }}>
+              {successMessage}
+            </div>
             <button style={succussButtonStyles} onClick={closeSuccessModal}>
               Close
             </button>
           </div>
+
+          // <div style={successModalStyles}>
+          //   <div style={checkmarkStyles}>&#10004;</div>
+          //   <div>{successMessage}</div>
+          //   <button style={succussButtonStyles} onClick={closeSuccessModal}>
+          //     Close
+          //   </button>
+          // </div>
         )}
       </div>
     </div>

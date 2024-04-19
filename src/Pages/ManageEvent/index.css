@@ -13,7 +13,7 @@
 }
 
 .one {
-  grid-row: 1/31;
+  grid-row: 1/26;
   grid-column: 1/1;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .three {
-  grid-row: 32/53;
+  grid-row: 27/49;
   grid-column: 1/1;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .five {
-  grid-row: 54/80;
+  grid-row: 50/76;
   grid-column: 1/1;
 }
 

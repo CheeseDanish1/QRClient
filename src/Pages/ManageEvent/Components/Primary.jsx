@@ -44,7 +44,7 @@ function Primary({
             placeholder="Enter giveaway name"
           />
         </div>
-        <div className="description" style={{ marginTop: 20 }}>
+        {/* <div className="description" style={{ marginTop: 20 }}>
           <p style={{ fontWeight: "bold" }}>Giveaway Description</p>
           <input
             style={{ marginTop: 10 }}
@@ -52,7 +52,7 @@ function Primary({
             className="input-field"
             placeholder="Add a description"
           />
-        </div>
+        </div> */}
         <div className="landing-text" style={{ marginTop: 20 }}>
           <p style={{ fontWeight: "bold" }}>Giveaway Landing Text</p>
           <input
@@ -65,7 +65,7 @@ function Primary({
           />
         </div>
         <div className="features" style={{ marginTop: 20 }}>
-          <p style={{ fontWeight: "bold" }}>Information to Collect</p>
+          <p style={{ fontWeight: "bold" }}>Default Fields</p>
           <div className="feature-container">
             <div className="feature feature-one">
               <input

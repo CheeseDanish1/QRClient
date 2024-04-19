@@ -19,6 +19,10 @@ function SubmissionTableRow({ submission, event, index }) {
       {event.fields.age && (
         <TableCell>{formatDate(submission.fields.age)}</TableCell>
       )}
+      {submission.fields.custom.length >= 1 &&
+        submission.fields.custom.map((r, i) => (
+          <TableCell key={i}>{r.value}</TableCell>
+        ))}
       <TableCell>{formateDate2(submission.timeSubmitted)}</TableCell>
       <TableCell>
         {submission.prizeClaimed ? submission.timePrizeClaimed : "Not claimed"}

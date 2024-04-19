@@ -11,10 +11,12 @@ import ManageEvent from "../Pages/ManageEvent/ManageEvent";
 import Settings from "../Pages/Settings/Settings";
 import Analytics from "../Pages/Analytics/Analytics";
 import Archived from "../Pages/Archived/ArchivedDashboard";
+import Home from "../Pages/Home/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    // element: <Home />,
     element: <Page404 />,
     errorElement: <Page404 />,
   },

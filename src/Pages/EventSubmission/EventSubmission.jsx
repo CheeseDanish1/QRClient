@@ -7,10 +7,10 @@ import EventNotStarted from "./Components/EventNotStarted";
 import EventEnded from "./Components/EventEnded";
 
 // Todo: Event Backgrounds
+const API_URI = process.env.REACT_APP_API_URI;
 
 function EventSubmission() {
   document.title = "Create Submission — Vending Promotions";
-  const API_URI = process.env.REACT_APP_API_URI;
 
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);
@@ -23,10 +23,25 @@ function EventSubmission() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [bagSize, setBagSize] = useState("s");
+  const [backgroundLoading, setBackgroundLoading] = useState(true);
 
   const captchaRef = useRef(null);
 
   let { eventId } = useParams();
+
+  useEffect(() => {
+    if (!event) return;
+    if (!event.enabled.image) return setBackgroundLoading(false);
+
+    const img = new Image();
+    let src = `${API_URI}/image/${event.imagePath}`;
+    console.log("Image source: ", src);
+    img.src = src;
+    img.onload = () => {
+      setBackgroundLoading(false);
+    };
+  }, [event]);
 
   useEffect(() => {
     getEvent({ id: eventId }).then((res) => {
@@ -79,7 +94,19 @@ function EventSubmission() {
 
       finishSubmission({
         id: eventId,
-        formData: { promotion, name, email, phone, age: realAge },
+        formData: {
+          promotion,
+          name,
+          email,
+          phone,
+          age: realAge,
+          custom: [
+            {
+              title: "Bag Size",
+              value: bagSize,
+            },
+          ],
+        },
       }).then((res) => {
         if (res.error) {
           return setSubmissionError(res.message);
@@ -87,10 +114,12 @@ function EventSubmission() {
 
         setSubmissionError("");
         // Change the message based off what they need to check
+        // If phone is checked, it will always prioritize just phone
+        // Otherwise it should be email because one of them is always checked
         setSuccussMessage(
-          `Check your ${event.fields.email ? "email" : ""} ${
-            event.fields.email && event.fields.phone ? "or" : ""
-          }  ${event.fields.phone ? "phone" : ""} for the QR code`
+          `Thank you for participating! Please wait for your QR Code via ${
+            event.fields.phone ? "text message" : "email"
+          }`
         );
       });
     });
@@ -99,6 +128,8 @@ function EventSubmission() {
   if (loading) return <p>Loading...</p>;
 
   if (!event) return <Event404 />;
+
+  document.title = `${event.companyName} – Powered by Vending Promotions`;
 
   if (eventError) return <p>{eventError}</p>;
 
@@ -172,72 +203,105 @@ function EventSubmission() {
 
   return (
     <div className="authentication-container" style={style}>
-      <form onSubmit={handleSubmit} className="authentication-box">
-        <h1 className="authentication-heading" style={fontColor}>
-          {event.text.eventLandingText}
-        </h1>
-        {fields.map((field, i) => {
-          return field.enabled ? (
+      {!backgroundLoading && (
+        <form onSubmit={handleSubmit} className="authentication-box">
+          <h1 className="authentication-heading" style={fontColor}>
+            {event.text.eventLandingText}
+          </h1>
+          {fields.map((field, i) => {
+            return field.enabled ? (
+              <div className="authentication-input-container">
+                <label style={fontColor} className="authentication-label">
+                  {field.title}
+                </label>
+                <input
+                  style={fontColor}
+                  className="authentication-input-field"
+                  type={field.type}
+                  value={field.value}
+                  onChange={(e) => field.setValue(e.target.value)}
+                />
+              </div>
+            ) : (
+              <></>
+            );
+          })}
+          {/* Definitely remove this */}
+          {(event.companyName.toLowerCase() === "doordash" ||
+            event.companyName.toLowerCase() === "door dash") && (
             <div className="authentication-input-container">
               <label style={fontColor} className="authentication-label">
-                {field.title}
+                Bag Size
               </label>
-              <input
-                style={fontColor}
-                className="authentication-input-field"
-                type={field.type}
-                value={field.value}
-                onChange={(e) => field.setValue(e.target.value)}
-              />
+
+              <div>
+                <input
+                  style={{ marginRight: 10, ...fontColor }}
+                  className="checkbox-1"
+                  type="checkbox"
+                  onChange={() => setBagSize("Small")}
+                  checked={bagSize === "Small"}
+                />
+                <label htmlFor=".checkbox-1">Small</label>
+              </div>
+              <div style={{ marginTop: 5 }}>
+                <input
+                  style={{ marginRight: 10, ...fontColor }}
+                  className="checkbox-2"
+                  type="checkbox"
+                  onChange={() => setBagSize("Large")}
+                  checked={bagSize === "Large"}
+                />
+                <label htmlFor=".checkbox-2">Large</label>
+              </div>
             </div>
-          ) : (
-            <></>
-          );
-        })}
-        {(event?.furtherContact?.toLowerCase() === "optional" ||
-          event?.furtherContact?.toLowerCase() === "required") && (
-          <label
-            style={{
-              fontFamily: "Roboto",
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "nowrap",
-              alignItems: "center",
-              gap: 10,
-              ...fontColor,
-            }}
-          >
-            <input
-              type="checkbox"
-              name="promotion"
-              value={promotion || ""}
-              onChange={(e) => setPromotion(e.target.checked)}
-            />
-            <span>Receive promotions from {" " + event.companyName}</span>
-          </label>
-        )}
-        <ReCaptcha
-          style={{ margin: "20px 0" }}
-          ref={captchaRef}
-          sitekey="6LcFfeYnAAAAAASJb2KL0XRyWdTWRy_RxeAbgTQV"
-        />
-        <button type="submit" className="authentication-button">
-          Receive Code
-        </button>
-        {(succussMessage || submissionError) && (
-          <div className="messages" style={{ marginTop: 10 }}>
-            {succussMessage ? (
-              <p style={{ color: "green", fontFamily: "Roboto" }}>
-                {succussMessage}
-              </p>
-            ) : (
-              <p style={{ color: "red", fontFamily: "Roboto" }}>
-                {submissionError}
-              </p>
-            )}
-          </div>
-        )}
-      </form>
+          )}
+          <ReCaptcha
+            style={{ marginBottom: "20px" }}
+            ref={captchaRef}
+            sitekey="6LcFfeYnAAAAAASJb2KL0XRyWdTWRy_RxeAbgTQV"
+          />
+          {(event?.furtherContact?.toLowerCase() === "optional" ||
+            event?.furtherContact?.toLowerCase() === "required") && (
+            <label
+              style={{
+                fontFamily: "Roboto",
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                marginBottom: "20px",
+                alignItems: "center",
+                gap: 10,
+                ...fontColor,
+              }}
+            >
+              <input
+                type="checkbox"
+                name="promotion"
+                value={promotion || ""}
+                onChange={(e) => setPromotion(e.target.checked)}
+              />
+              <span>Receive promotions from {" " + event.companyName}</span>
+            </label>
+          )}
+          <button type="submit" className="authentication-button">
+            Receive Code
+          </button>
+          {(succussMessage || submissionError) && (
+            <div className="messages" style={{ marginTop: 10 }}>
+              {succussMessage ? (
+                <p style={{ color: "green", fontFamily: "Roboto" }}>
+                  {succussMessage}
+                </p>
+              ) : (
+                <p style={{ color: "red", fontFamily: "Roboto" }}>
+                  {submissionError}
+                </p>
+              )}
+            </div>
+          )}
+        </form>
+      )}
     </div>
   );
 }
