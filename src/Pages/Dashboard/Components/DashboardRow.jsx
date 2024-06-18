@@ -1,12 +1,10 @@
 import React from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-function DashboardRow({ event, usernames, index }) {
+function DashboardRow({ event, index }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   return (
     <TableRow
@@ -20,11 +18,7 @@ function DashboardRow({ event, usernames, index }) {
       }}
     >
       <TableCell>{event.companyName}</TableCell>
-      <TableCell>
-        {usernames.length > 0
-          ? usernames.find((u) => u.uuid === user.id).username
-          : "Loading..."}
-      </TableCell>
+      <TableCell>{event.createdBy.username}</TableCell>
       <TableCell>{formatDate(event.timeCreated)}</TableCell>
       <TableCell>
         {event.lastUpdated

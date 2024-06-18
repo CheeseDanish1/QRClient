@@ -23,7 +23,6 @@ function EventSubmission() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [bagSize, setBagSize] = useState("Small");
   const [backgroundLoading, setBackgroundLoading] = useState(true);
 
   const captchaRef = useRef(null);
@@ -100,12 +99,6 @@ function EventSubmission() {
           email,
           phone,
           age: realAge,
-          custom: [
-            {
-              title: "Bag Size",
-              value: bagSize,
-            },
-          ],
         },
       }).then((res) => {
         if (res.error) {
@@ -125,8 +118,7 @@ function EventSubmission() {
     });
   };
 
-  if (loading || backgroundLoading)
-    return <p style={{ textAlign: "center" }}>This event is loading</p>;
+  if (loading || backgroundLoading) return <p>This event is loading</p>;
 
   if (!event) return <Event404 />;
 
@@ -227,36 +219,6 @@ function EventSubmission() {
               <></>
             );
           })}
-          {/* Definitely remove this */}
-          {(event.companyName.toLowerCase() === "doordash" ||
-            event.companyName.toLowerCase() === "door dash") && (
-            <div className="authentication-input-container">
-              <label style={fontColor} className="authentication-label">
-                Bag Size
-              </label>
-
-              <div>
-                <input
-                  style={{ marginRight: 10, ...fontColor }}
-                  className="checkbox-1"
-                  type="checkbox"
-                  onChange={() => setBagSize("Small")}
-                  checked={bagSize === "Small"}
-                />
-                <label htmlFor=".checkbox-1">Small</label>
-              </div>
-              <div style={{ marginTop: 5 }}>
-                <input
-                  style={{ marginRight: 10, ...fontColor }}
-                  className="checkbox-2"
-                  type="checkbox"
-                  onChange={() => setBagSize("Large")}
-                  checked={bagSize === "Large"}
-                />
-                <label htmlFor=".checkbox-2">Large</label>
-              </div>
-            </div>
-          )}
           <ReCaptcha
             style={{ marginBottom: "20px" }}
             ref={captchaRef}

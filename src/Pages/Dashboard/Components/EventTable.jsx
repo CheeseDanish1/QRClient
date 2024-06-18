@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,38 +6,10 @@ import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import DashboardRow from "./DashboardRow";
-import { getUsernameFromId } from "../../../utils/api";
-
 // setShowModal is the create event modal
 // It is passed in so we can suggest to create an event when no are made
 function EventTable({ user, archived, setShowModal }) {
-  const [usernames, setUsernames] = useState([]);
-
-  useEffect(() => {
-    // Loading usernames
-    if (user && usernames.length === 0) {
-      // Remove any duplicates
-      const createdByArr = user.events.filter(
-        (event, index) =>
-          user.events.findIndex(
-            (e) => e.createdBy.uuid === event.createdBy.uuid
-          ) === index
-      );
-      createdByArr.forEach((event) => {
-        getUsernameFromId(event.createdBy.uuid).then((res) => {
-          setUsernames((prev) => {
-            return [
-              ...prev,
-              {
-                username: res.data.username,
-                uuid: event.createdBy.uuid,
-              },
-            ];
-          });
-        });
-      });
-    }
-  }, [user, usernames]);
+  if (!user.events) return <p>Loading</p>;
 
   return (
     <TableContainer sx={{ maxHeight: 440 }}>
@@ -63,13 +35,7 @@ function EventTable({ user, archived, setShowModal }) {
               .filter((event) => event.archived === archived)
               .map((event, i) => {
                 return (
-                  <DashboardRow
-                    user={user}
-                    key={i}
-                    index={i}
-                    event={event}
-                    usernames={usernames}
-                  />
+                  <DashboardRow user={user} key={i} index={i} event={event} />
                 );
               })
           )}

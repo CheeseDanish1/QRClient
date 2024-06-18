@@ -47,7 +47,9 @@ function SidebarTop() {
           }px`,
         }}
       >
-        {sidebarOpen && <ExpandedSidebar />}
+        <div style={{ display: sidebarOpen ? "" : "none" }}>
+          <ExpandedSidebar />
+        </div>
       </div>
     </div>
   );
